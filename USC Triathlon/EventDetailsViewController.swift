@@ -12,16 +12,16 @@ class EventDetailsViewController: UIViewController {
     
     var event: PFObject?
     
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var navBar: UINavigationItem!
+    @IBOutlet weak var detailsView: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let name = event!.valueForKey("name") as! String
         let date = event!.valueForKey("date") as! NSDate
-        let eventDescription = event!.valueForKey("description") as! String
+        let eventDetails = event!.valueForKey("details") as! String
         let type = event!.valueForKey("type") as! String
         
         let dateFormatter = NSDateFormatter()
@@ -29,9 +29,10 @@ class EventDetailsViewController: UIViewController {
         let dateString = dateFormatter.stringFromDate(date)
 
         // Do any additional setup after loading the view.
-        nameLabel.text = name
+        navBar.title = name
         dateLabel.text = type + dateString
-        descriptionLabel.text = eventDescription
+        detailsView.text = eventDetails
+        
     }
     
 
@@ -41,9 +42,6 @@ class EventDetailsViewController: UIViewController {
     }
     
     @IBAction func comment(sender: AnyObject) {
-    }
-    
-    @IBAction func rsvp(sender: AnyObject) {
     }
 
     /*

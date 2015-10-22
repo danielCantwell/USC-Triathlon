@@ -28,6 +28,7 @@
 		763736031BD7138000E175D1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736021BD7138000E175D1 /* libsqlite3.tbd */; };
 		76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B621BD86A4C002B7765 /* CreateEventViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		76DFF6001BD95501004BC91B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF5FF1BD95501004BC91B /* Event.swift */; settings = {ASSET_TAGS = (); }; };
 		76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */; };
 		76FBEAA31BD6C4FB00844FED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA11BD6C4FB00844FED /* Main.storyboard */; };
 		76FBEAA51BD6C4FB00844FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA41BD6C4FB00844FED /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 		763736021BD7138000E175D1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		76547B621BD86A4C002B7765 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
+		76DFF5FF1BD95501004BC91B /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		76FBEA981BD6C4FB00844FED /* USC Triathlon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "USC Triathlon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76FBEAA21BD6C4FB00844FED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */,
 				763735D51BD70CE200E175D1 /* SignUpViewController.swift */,
 				763735EB1BD7127000E175D1 /* USC Triathlon-Bridging-Header.h */,
+				76DFF5FF1BD95501004BC91B /* Event.swift */,
 			);
 			path = "USC Triathlon";
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */,
 				763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */,
 				763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */,
+				76DFF6001BD95501004BC91B /* Event.swift in Sources */,
 				763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */,
 				76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */,
 				76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */,

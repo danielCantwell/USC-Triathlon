@@ -13,6 +13,7 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var eventsTable: UITableView!
     @IBOutlet weak var createEventButton: UIButton!
     var events: NSMutableArray?
+    var eventToPass: PFObject!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +55,12 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
 
     // MARK: - Table view data source
 
+//    Number of Sections in the Table
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
+//    Number of Rows in the Table
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if events != nil {
             return self.events!.count
@@ -66,7 +69,7 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         }
     }
 
-    
+//    Configure the cells to be displayed
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
 
@@ -85,6 +88,17 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         return cell
     }
     
+//    Handle cell selection
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // Get Cell Label
+        let indexPath = tableView.indexPathForSelectedRow;
+        let object = events?.objectAtIndex(indexPath!.row) as! PFObject
+        
+        eventToPass = object
+        performSegueWithIdentifier("eventDetails", sender: self)
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -121,14 +135,20 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "eventDetails" {
+            
+            let nextView = segue.destinationViewController as! EventDetailsViewController
+            nextView.event = eventToPass
+        }
     }
-    */
+
 
 }

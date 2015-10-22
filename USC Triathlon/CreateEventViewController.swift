@@ -62,7 +62,7 @@ class CreateEventViewController: UIViewController {
             event = PFObject(className: "Event")
             event!.setObject(eventName, forKey: "name")
             event!.setObject(eventLocation, forKey: "location")
-            event!.setObject(eventDescription, forKey: "description")
+            event!.setObject(eventDescription, forKey: "details")
             event!.setObject(eventDate, forKey: "date")
             event!.setObject(eventCarpooling, forKey: "carpooling")
             event!.setObject(eventCycling, forKey: "cycling")
