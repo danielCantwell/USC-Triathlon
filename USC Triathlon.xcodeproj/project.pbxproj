@@ -10,7 +10,6 @@
 		763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D31BD70CA400E175D1 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D51BD70CE200E175D1 /* SignUpViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D71BD70CF600E175D1 /* NewsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735DA1BD70D0900E175D1 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D91BD70D0900E175D1 /* ScheduleViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		763735DC1BD70D7900E175D1 /* NewsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -28,6 +27,7 @@
 		763736011BD7137700E175D1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736001BD7137700E175D1 /* libz.tbd */; };
 		763736031BD7138000E175D1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736021BD7138000E175D1 /* libsqlite3.tbd */; };
 		76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B621BD86A4C002B7765 /* CreateEventViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */; };
 		76FBEAA31BD6C4FB00844FED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA11BD6C4FB00844FED /* Main.storyboard */; };
 		76FBEAA51BD6C4FB00844FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA41BD6C4FB00844FED /* Assets.xcassets */; };
@@ -38,7 +38,6 @@
 		763735D31BD70CA400E175D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		763735D51BD70CE200E175D1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		763735D71BD70CF600E175D1 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
-		763735D91BD70D0900E175D1 /* ScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailsViewController.swift; sourceTree = "<group>"; };
 		763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRSVPViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +56,7 @@
 		763736001BD7137700E175D1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		763736021BD7138000E175D1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		76547B621BD86A4C002B7765 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
+		76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
 		76FBEA981BD6C4FB00844FED /* USC Triathlon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "USC Triathlon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76FBEAA21BD6C4FB00844FED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 				76FBEAA11BD6C4FB00844FED /* Main.storyboard */,
 				763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */,
 				763735D71BD70CF600E175D1 /* NewsViewController.swift */,
-				763735D91BD70D0900E175D1 /* ScheduleViewController.swift */,
+				76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */,
 				763735D51BD70CE200E175D1 /* SignUpViewController.swift */,
 				763735EB1BD7127000E175D1 /* USC Triathlon-Bridging-Header.h */,
 			);
@@ -220,10 +220,10 @@
 			files = (
 				763735DC1BD70D7900E175D1 /* NewsDetailsViewController.swift in Sources */,
 				763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */,
-				763735DA1BD70D0900E175D1 /* ScheduleViewController.swift in Sources */,
 				763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */,
 				763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */,
 				763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */,
+				76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */,
 				76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */,
 				763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */,
 				76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */,
