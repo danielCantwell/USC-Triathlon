@@ -14,25 +14,29 @@ class EventRSVPViewController: UIViewController {
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var goingSwitch: UISwitch!
-    @IBOutlet weak var drivingSelfSwitch: UISwitch!
-    @IBOutlet weak var hasCarSwitch: UISwitch!
     @IBOutlet weak var seatsLabel: UILabel!
-    @IBOutlet weak var rackSwitch: UISwitch!
     @IBOutlet weak var bikesLabel: UILabel!
-    @IBOutlet weak var teamBikeSwitch: UISwitch!
     @IBOutlet weak var commentsLabel: UITextField!
+    
+    @IBOutlet weak var goingSwitch: UISwitch!
+    @IBOutlet weak var hasBikeSwitch: UISwitch!
+    @IBOutlet weak var teamBikeSwitch: UISwitch!
+    @IBOutlet weak var drivingAloneSwitch: UISwitch!
+    @IBOutlet weak var hasCarSwitch: UISwitch!
+    @IBOutlet weak var rackSwitch: UISwitch!
+    
     @IBOutlet weak var seatsCaption: UILabel!
     @IBOutlet weak var bikesCaption: UILabel!
-    @IBOutlet weak var seatsStepper: UIStepper!
-    @IBOutlet weak var bikesStepper: UIStepper!
     @IBOutlet weak var requestRackCaption: UILabel!
     @IBOutlet weak var hasCarCaption: UILabel!
-    @IBOutlet weak var hasBikeSwitch: UISwitch!
     @IBOutlet weak var requestBikeCaption: UILabel!
     @IBOutlet weak var hasBikeCaption: UILabel!
     @IBOutlet weak var drivingAloneCaption: UILabel!
-    @IBOutlet weak var drivingAloneSwitch: UISwitch!
+    
+    @IBOutlet weak var seatsStepper: UIStepper!
+    @IBOutlet weak var bikesStepper: UIStepper!
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +48,34 @@ class EventRSVPViewController: UIViewController {
         teamBikeSwitch.hidden = true
     }
     
+    @IBAction func cancel(sender: AnyObject) {
+        performSegueWithIdentifier("backToEventDetails", sender: self)
+    }
+    
     @IBAction func submit(sender: AnyObject) {
+        let eventRSVP = PFObject()
+        eventRSVP["user"] = PFUser.currentUser()
+        eventRSVP["going"] = goingSwitch.on
+        eventRSVP["drivingSelf"] = drivingAloneSwitch.on
+        eventRSVP["canDrive"] = hasCarSwitch.on
+        eventRSVP["seats"] = seatsStepper.value
+        eventRSVP["bikeSpots"] = bikesStepper.value
+        eventRSVP["requestingBikeRack"] = rackSwitch.on
+        eventRSVP["requestingTeamBike"] = teamBikeSwitch.on
         
+        eventRSVP.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                self.event!.addObject(eventRSVP, forKey: "rsvps")
+                self.event?.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    
+                    if error == nil {
+                        self.performSegueWithIdentifier("backToEventDetails", sender: self)
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func going(sender: AnyObject) {
@@ -95,6 +125,7 @@ class EventRSVPViewController: UIViewController {
         toggleBikesHidden()
         
         if rackSwitch.on {
+            bikesStepper.value = 3
             bikesLabel.text = "3"
         }
     }
@@ -150,7 +181,13 @@ class EventRSVPViewController: UIViewController {
         seatsStepper.hidden = !seatsStepper.hidden
         seatsLabel.hidden = !seatsLabel.hidden
         
-        (seatsCaption.hidden) ? (seatsLabel.text = "0") : (seatsLabel.text = "2")
+        if seatsCaption.hidden {
+            seatsLabel.text = "0"
+            seatsStepper.value = 0
+        } else {
+            seatsLabel.text = "2"
+            seatsStepper.value = 2
+        }
     }
     
     func toggleBikesHidden() {
@@ -159,6 +196,7 @@ class EventRSVPViewController: UIViewController {
         bikesLabel.hidden = !bikesLabel.hidden
         
         bikesLabel.text = "0"
+        bikesStepper.value = 0
     }
     
     func toggleRackHidden() {
@@ -172,14 +210,18 @@ class EventRSVPViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "backToEventDetails" {
+            
+            let nextView = segue.destinationViewController as! EventDetailsViewController
+            nextView.event = event
+        }
     }
-    */
+
 
 }
