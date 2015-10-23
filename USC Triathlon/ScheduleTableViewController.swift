@@ -11,7 +11,6 @@ import UIKit
 class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var eventsTable: UITableView!
-    @IBOutlet weak var createEventButton: UIButton!
     var events: NSMutableArray?
     var eventToPass: PFObject!
 
