@@ -14,7 +14,7 @@ class CreateEventViewController: UIViewController {
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var locationField: UITextField!
-    @IBOutlet weak var descriptionField: UITextField!
+    @IBOutlet weak var descriptionField: UITextView!
     @IBOutlet weak var datepicker: UIDatePicker!
     @IBOutlet weak var carpoolSwitch: UISwitch!
     @IBOutlet weak var cyclingSwitch: UISwitch!
