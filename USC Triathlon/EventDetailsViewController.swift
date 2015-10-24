@@ -13,35 +13,43 @@ class EventDetailsViewController: UIViewController {
     var event: PFObject?
     
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var detailsView: UITextView!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var backgroundColor: UIView!
+    @IBOutlet weak var eventLocationLabel: UILabel!
+    @IBOutlet weak var meetingLocationLabel: UILabel!
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var commentAttendeesSegment: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.sendSubviewToBack(backgroundColor)
+//        self.view.sendSubviewToBack(backgroundColor)
         
         let name = event!.valueForKey("name") as! String
         let date = event!.valueForKey("date") as! NSDate
         let eventDetails = event!.valueForKey("details") as! String
         let type = event!.valueForKey("type") as! String
-        let location = event!.valueForKey("location") as! String
+        let eventLocation = event!.valueForKey("eventLocation") as! String
+        let meetingLocation = event!.valueForKey("meetingLocation") as! String
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "' at' hh:mm a, 'on' EEE M/dd/YY"
         let dateString = dateFormatter.stringFromDate(date)
 
         // Do any additional setup after loading the view.
-        navBar.title = name
+        self.navigationItem.title = name
         dateLabel.text = type + dateString
         detailsView.text = eventDetails
-        locationLabel.text = "Meeting at " + location
+        eventLocationLabel.text = eventLocation
+        meetingLocationLabel.text = "Meeting at " + meetingLocation
         
         commentButton.hidden = true
+        
+        let rsvpButton = UIBarButtonItem(title: "RSVP", style: UIBarButtonItemStyle.Plain, target: self, action: "rsvp:")
+        self.navigationItem.rightBarButtonItem = rsvpButton
+        
+        detailsView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        detailsView.layer.borderWidth = 0.5
+        detailsView.layer.cornerRadius = 10
     }
     
     @IBAction func commentsAttendees(sender: AnyObject) {
@@ -54,8 +62,19 @@ class EventDetailsViewController: UIViewController {
         }
     }
     
-    @IBAction func rsvp(sender: AnyObject) {
-        performSegueWithIdentifier("eventRSVP", sender: self)
+    func rsvp(sender: UIBarButtonItem) {
+        let carpooling = event?.valueForKey("carpooling") as! Bool
+        let cycling = event?.valueForKey("cycling") as! Bool
+        
+        if carpooling && cycling {
+            performSegueWithIdentifier("eventRSVP", sender: self)
+        } else if carpooling {
+            performSegueWithIdentifier("rsvpCarpoolingNoCycling", sender: self)
+        } else if cycling {
+            performSegueWithIdentifier("rsvpCyclingNoCarpooling", sender: self)
+        } else {
+//            Show and Alert Dialog
+        }
     }
     
     @IBAction func comment(sender: AnyObject) {
@@ -78,6 +97,11 @@ class EventDetailsViewController: UIViewController {
         if segue.identifier == "eventRSVP" {
             
             let nextView = segue.destinationViewController as! EventRSVPViewController
+            nextView.event = event
+        } else if segue.identifier == "rsvpCarpoolingNoCycling" {
+            
+        } else if segue.identifier == "rsvpCyclingNoCarpooling" {
+            let nextView = segue.destinationViewController as! EventRSVPCyclingViewController
             nextView.event = event
         }
     }

@@ -12,7 +12,6 @@ class EventRSVPViewController: UIViewController {
     
     var event: PFObject?
     
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var seatsLabel: UILabel!
     @IBOutlet weak var bikesLabel: UILabel!
@@ -35,25 +34,31 @@ class EventRSVPViewController: UIViewController {
     
     @IBOutlet weak var seatsStepper: UIStepper!
     @IBOutlet weak var bikesStepper: UIStepper!
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        self.navigationItem.title = event!.valueForKey("name") as! String
 
         // Do any additional setup after loading the view.
+        let date = event!.valueForKey("date") as! NSDate
         
-
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "hh:mm a, 'on' EEE M/dd/YY"
+        let dateString = dateFormatter.stringFromDate(date)
+        
+        dateLabel.text = dateString
+        
         requestBikeCaption.hidden = true
         teamBikeSwitch.hidden = true
+        
+        let submitButton = UIBarButtonItem(title: "Submit", style: UIBarButtonItemStyle.Plain, target: self, action: "submit:")
+        self.navigationItem.rightBarButtonItem = submitButton
+        
     }
     
-    @IBAction func cancel(sender: AnyObject) {
-        performSegueWithIdentifier("backToEventDetails", sender: self)
-    }
-    
-    @IBAction func submit(sender: AnyObject) {
-        let eventRSVP = PFObject()
+    func submit(sender: UIBarButtonItem) {
+        let eventRSVP = PFObject(className: "RSVP")
         eventRSVP["user"] = PFUser.currentUser()
         eventRSVP["going"] = goingSwitch.on
         eventRSVP["drivingSelf"] = drivingAloneSwitch.on
@@ -62,6 +67,7 @@ class EventRSVPViewController: UIViewController {
         eventRSVP["bikeSpots"] = bikesStepper.value
         eventRSVP["requestingBikeRack"] = rackSwitch.on
         eventRSVP["requestingTeamBike"] = teamBikeSwitch.on
+        eventRSVP["comment"] = commentsLabel.text
         
         eventRSVP.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             
@@ -71,7 +77,7 @@ class EventRSVPViewController: UIViewController {
                 self.event?.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                     
                     if error == nil {
-                        self.performSegueWithIdentifier("backToEventDetails", sender: self)
+                        self.navigationController?.popViewControllerAnimated(true)
                     }
                 }
             }
@@ -216,7 +222,7 @@ class EventRSVPViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "backToEventDetails" {
+        if segue.identifier == "rsvpSubmitted" {
             
             let nextView = segue.destinationViewController as! EventDetailsViewController
             nextView.event = event

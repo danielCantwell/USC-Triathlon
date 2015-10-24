@@ -24,6 +24,10 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         loadData("all")
     }
     
+    override func viewDidAppear(animated: Bool) {
+        loadData("all")
+    }
+    
     func loadData(type: String) {
         events = NSMutableArray()
         let parseQuery = PFQuery(className: "Event")

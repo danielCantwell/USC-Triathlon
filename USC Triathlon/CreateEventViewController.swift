@@ -9,29 +9,63 @@
 import UIKit
 
 class CreateEventViewController: UIViewController {
-    
+
     var event: PFObject?
     
     @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var locationField: UITextField!
     @IBOutlet weak var descriptionField: UITextView!
     @IBOutlet weak var datepicker: UIDatePicker!
     @IBOutlet weak var carpoolSwitch: UISwitch!
     @IBOutlet weak var cyclingSwitch: UISwitch!
     @IBOutlet weak var eventSelector: UISegmentedControl!
     @IBOutlet weak var cyclingLabel: UILabel!
+    @IBOutlet weak var eventLocationField: UITextField!
+    @IBOutlet weak var meetingLocationField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        let createButton = UIBarButtonItem(title: "Create", style: UIBarButtonItemStyle.Plain, target: self, action: "createEvent:")
+        self.navigationItem.rightBarButtonItem = createButton
+        
+        let detailsTap = UITapGestureRecognizer(target: self, action: "scrollView")
+        let viewTap = UITapGestureRecognizer(target: self, action: "resetView")
+        
+        self.view.addGestureRecognizer(viewTap)
+        descriptionField.addGestureRecognizer(detailsTap)
+        
+        descriptionField.layer.borderColor = UIColor.lightGrayColor().CGColor
+        descriptionField.layer.borderWidth = 0.5
+        descriptionField.layer.cornerRadius = 10
     }
     
-    @IBAction func createEvent(sender: AnyObject) {
+    func scrollView() {
+        descriptionField.becomeFirstResponder()
         
-        if (nameField.text != "" && locationField.text != "" && descriptionField.text != "") {
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = CGRectMake(self.view.frame.origin.x, -180, self.view.frame.size.width, self.view.frame.size.height)
+    }
+    
+    func resetView() {
+        descriptionField.resignFirstResponder()
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(0.3)
+        self.view.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height)
+        
+        let detailsTap = UITapGestureRecognizer(target: self, action: "scrollView")
+        descriptionField.addGestureRecognizer(detailsTap)
+    }
+    
+    func createEvent(sender: AnyObject) {
+        
+        if (nameField.text != "" && eventLocationField.text != "" && meetingLocationField.text != "" && descriptionField.text != "") {
             let eventName = nameField.text as String!
-            let eventLocation = locationField.text as String!
+            let eventLocation = eventLocationField.text as String!
+            let meetingLocation = meetingLocationField.text as String!
             let eventDescription = descriptionField.text as String!
             let eventDate = datepicker.date
             let eventCarpooling = carpoolSwitch.on
@@ -61,7 +95,8 @@ class CreateEventViewController: UIViewController {
             
             event = PFObject(className: "Event")
             event!.setObject(eventName, forKey: "name")
-            event!.setObject(eventLocation, forKey: "location")
+            event!.setObject(eventLocation, forKey: "eventLocation")
+            event!.setObject(meetingLocation, forKey: "meetingLocation")
             event!.setObject(eventDescription, forKey: "details")
             event!.setObject(eventDate, forKey: "date")
             event!.setObject(eventCarpooling, forKey: "carpooling")
@@ -71,9 +106,10 @@ class CreateEventViewController: UIViewController {
             event!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
                 
                 if error == nil {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.performSegueWithIdentifier("segueCreateEvent", sender: self)
-                    }
+                    self.navigationController?.popViewControllerAnimated(true)
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        self.performSegueWithIdentifier("segueCreateEvent", sender: self)
+//                    }
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {
                         self.performSegueWithIdentifier("segueCancel", sender: self)
@@ -84,17 +120,17 @@ class CreateEventViewController: UIViewController {
             
         }
     }
-
-    @IBAction func carpoolSwitch(sender: AnyObject) {
-        if !carpoolSwitch.on {
-            cyclingLabel.hidden = true
-            cyclingSwitch.hidden = true
-            cyclingSwitch.on = false
-        } else {
-            cyclingLabel.hidden = false
-            cyclingSwitch.hidden = false
-            cyclingSwitch.on = true
-        }
+    
+    @IBAction func nameFieldNext(sender: AnyObject) {
+        eventLocationField.becomeFirstResponder()
+    }
+    
+    @IBAction func eventLocationFieldNext(sender: AnyObject) {
+        meetingLocationField.becomeFirstResponder()
+    }
+    
+    @IBAction func meetingLocationFieldDone(sender: AnyObject) {
+        self.view.endEditing(true)
     }
     
     override func didReceiveMemoryWarning() {
@@ -111,10 +147,10 @@ class CreateEventViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        if segue.identifier == "segueCreateEvent" {
-            let nextView = segue.destinationViewController as! EventDetailsViewController
-            nextView.event = event
-        }
+//        if segue.identifier == "segueCreateEvent" {
+//            let nextView = segue.destinationViewController as! EventDetailsViewController
+//            nextView.event = event
+//        }
     }
 
 
