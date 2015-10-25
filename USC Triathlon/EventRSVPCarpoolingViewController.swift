@@ -9,11 +9,24 @@
 import UIKit
 
 class EventRSVPCarpoolingViewController: UIViewController {
+    
+    @IBOutlet weak var drivingAloneCaption: UILabel!
+    @IBOutlet weak var hasCarCaption: UILabel!
+    @IBOutlet weak var seatsCaption: UILabel!
+    @IBOutlet weak var goingSwitch: UISwitch!
+    @IBOutlet weak var drivingAloneSwitch: UISwitch!
+    @IBOutlet weak var hasCarSwitch: UISwitch!
+    @IBOutlet weak var seatsStepper: UIStepper!
+    @IBOutlet weak var seatsLabel: UILabel!
+    @IBOutlet weak var commentsField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        let submitButton = UIBarButtonItem(title: "Submit", style: UIBarButtonItemStyle.Plain, target: self, action: "submit")
+        self.navigationItem.rightBarButtonItem = submitButton
     }
 
     override func didReceiveMemoryWarning() {

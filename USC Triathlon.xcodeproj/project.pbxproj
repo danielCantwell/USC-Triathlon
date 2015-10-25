@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D31BD70CA400E175D1 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D51BD70CE200E175D1 /* SignUpViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D71BD70CF600E175D1 /* NewsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735DC1BD70D7900E175D1 /* NewsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		763735E81BD7116200E175D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735E61BD7116200E175D1 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
-		763735E91BD7116200E175D1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735E71BD7116200E175D1 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
+		7601FF521BDD7C6D0032FCEF /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7601FF511BDD7C6D0032FCEF /* TabBarViewController.swift */; };
+		763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D31BD70CA400E175D1 /* LoginViewController.swift */; };
+		763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D51BD70CE200E175D1 /* SignUpViewController.swift */; };
+		763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D71BD70CF600E175D1 /* NewsViewController.swift */; };
+		763735DC1BD70D7900E175D1 /* NewsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */; };
+		763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */; };
+		763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */; };
+		763735E81BD7116200E175D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735E61BD7116200E175D1 /* Bolts.framework */; };
+		763735E91BD7116200E175D1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735E71BD7116200E175D1 /* Parse.framework */; };
 		763735EF1BD7131300E175D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735EE1BD7131300E175D1 /* AudioToolbox.framework */; };
 		763735F11BD7131A00E175D1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F01BD7131A00E175D1 /* CFNetwork.framework */; };
 		763735F31BD7132300E175D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F21BD7132300E175D1 /* CoreGraphics.framework */; };
@@ -26,11 +27,11 @@
 		763735FF1BD7135400E175D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735FE1BD7135400E175D1 /* SystemConfiguration.framework */; };
 		763736011BD7137700E175D1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736001BD7137700E175D1 /* libz.tbd */; };
 		763736031BD7138000E175D1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736021BD7138000E175D1 /* libsqlite3.tbd */; };
-		76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B621BD86A4C002B7765 /* CreateEventViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		76BD4D8A1BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		76BD4D8C1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		76DFF6001BD95501004BC91B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF5FF1BD95501004BC91B /* Event.swift */; settings = {ASSET_TAGS = (); }; };
+		76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B621BD86A4C002B7765 /* CreateEventViewController.swift */; };
+		76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */; };
+		76BD4D8A1BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */; };
+		76BD4D8C1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */; };
+		76DFF6001BD95501004BC91B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF5FF1BD95501004BC91B /* Event.swift */; };
 		76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */; };
 		76FBEAA31BD6C4FB00844FED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA11BD6C4FB00844FED /* Main.storyboard */; };
 		76FBEAA51BD6C4FB00844FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA41BD6C4FB00844FED /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7601FF511BDD7C6D0032FCEF /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		763735D31BD70CA400E175D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		763735D51BD70CE200E175D1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		763735D71BD70CF600E175D1 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				76FBEAA61BD6C4FB00844FED /* LaunchScreen.storyboard */,
 				763735D31BD70CA400E175D1 /* LoginViewController.swift */,
 				76FBEAA11BD6C4FB00844FED /* Main.storyboard */,
+				7601FF511BDD7C6D0032FCEF /* TabBarViewController.swift */,
 				763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */,
 				763735D71BD70CF600E175D1 /* NewsViewController.swift */,
 				76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */,
@@ -237,6 +240,7 @@
 				763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */,
 				76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */,
 				76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */,
+				7601FF521BDD7C6D0032FCEF /* TabBarViewController.swift in Sources */,
 				763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */,
 				76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */,
 			);
