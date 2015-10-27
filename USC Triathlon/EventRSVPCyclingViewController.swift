@@ -35,8 +35,12 @@ class EventRSVPCyclingViewController: UIViewController {
     }
     
     func submit() {
+        let firstName = PFUser.currentUser()?.valueForKey("firstname") as! String
+        let lastName = PFUser.currentUser()?.valueForKey("lastname") as! String
+        
         let eventRSVP = PFObject(className: "RSVP")
         eventRSVP["user"] = PFUser.currentUser()
+        eventRSVP["name"] = firstName + " " + lastName
         eventRSVP["going"] = goingSwitch.on
         eventRSVP["drivingSelf"] = false
         eventRSVP["canDrive"] = false

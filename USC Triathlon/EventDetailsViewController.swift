@@ -8,10 +8,12 @@
 
 import UIKit
 
-class EventDetailsViewController: UIViewController {
+class EventDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var event: PFObject?
+    var attendees: NSMutableArray?
     
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailsView: UITextView!
     @IBOutlet weak var eventLocationLabel: UILabel!
@@ -50,6 +52,52 @@ class EventDetailsViewController: UIViewController {
         detailsView.layer.borderColor = UIColor.lightGrayColor().CGColor
         detailsView.layer.borderWidth = 0.5
         detailsView.layer.cornerRadius = 10
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        loadData("attendees")
+    }
+    
+    func loadData(type: String) {
+        
+        attendees = NSMutableArray()
+        let parseQuery = PFQuery(className: "RSVP")
+        
+        if type == "attendees" {
+            var rsvpList = event?.valueForKey("rsvps") as! [AnyObject]
+            var rsvpIds : [AnyObject] = []
+            for rsvp in rsvpList {
+                var rsvpId = rsvp.valueForKey("objectId") as! String
+                rsvpIds.append(rsvpId)
+            }
+            parseQuery.includeKey("rsvps")
+            
+            parseQuery.whereKey("objectId", containedIn: rsvpIds)
+        }
+        parseQuery.orderByDescending("name")
+        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+            if error == nil {
+                for object:PFObject in objects! {
+                    self.attendees!.addObject(object)
+                    print("attendee added: " + (object.valueForKey("name") as! String))
+                    
+                    var rsvpUserId = object.valueForKey("user")!.valueForKey("objectId") as! String
+                    // Check if current user has rsvp'd
+                    if rsvpUserId == (PFUser.currentUser()!.valueForKey("objectId") as! String) {
+                        print("same user")
+                    } else {
+                        print("rsvp id: " + rsvpUserId)
+                        print("user id: " + (PFUser.currentUser()!.valueForKey("objectId") as! String))
+                    }
+                }
+                
+                let array = self.attendees!.reverseObjectEnumerator().allObjects
+                self.attendees = array as! NSMutableArray
+                
+                self.tableView.reloadData()
+            }
+        }
     }
     
     @IBAction func commentsAttendees(sender: AnyObject) {
@@ -78,8 +126,12 @@ class EventDetailsViewController: UIViewController {
     }
     
     func submitRSVP(going: Bool, comments: String) {
+        let firstName = PFUser.currentUser()?.valueForKey("firstname") as! String
+        let lastName = PFUser.currentUser()?.valueForKey("lastname") as! String
+        
         let eventRSVP = PFObject(className: "RSVP")
         eventRSVP["user"] = PFUser.currentUser()
+        eventRSVP["name"] = firstName + " " + lastName
         eventRSVP["going"] = going
         eventRSVP["drivingSelf"] = false
         eventRSVP["canDrive"] = false
@@ -142,6 +194,47 @@ class EventDetailsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - Table view data source
+    
+    //    Number of Sections in the Table
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    //    Number of Rows in the Table
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if attendees != nil {
+            return self.attendees!.count
+        } else {
+            return 0
+        }
+    }
+    
+    //    Configure the cells to be displayed
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
+        
+        // Configure the cell...
+        let item = attendees?.objectAtIndex(indexPath.row) as! PFObject
+        
+        cell.textLabel!.text = item.valueForKey("name") as! String
+        cell.detailTextLabel?.text = "passenger"
+        
+        return cell
+    }
+    
+    //    Handle cell selection
+//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        
+//        // Get Cell Label
+//        let indexPath = tableView.indexPathForSelectedRow;
+//        let object = attendees?.objectAtIndex(indexPath!.row) as! PFObject
+//        
+//        eventToPass = object
+//        performSegueWithIdentifier("eventDetails", sender: self)
+//        
+//    }
 
     
     // MARK: - Navigation

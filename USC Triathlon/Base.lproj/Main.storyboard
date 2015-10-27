@@ -485,6 +485,32 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zlD-YE-aCv">
                                 <rect key="frame" x="20" y="339" width="560" height="241"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="Btn-kM-vhV" detailTextLabel="mTR-We-D4G" style="IBUITableViewCellStyleValue1" id="BeC-N4-c9K">
+                                        <rect key="frame" x="0.0" y="28" width="560" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BeC-N4-c9K" id="pzT-tv-7Nz">
+                                            <rect key="frame" x="0.0" y="0.0" width="560" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Btn-kM-vhV">
+                                                    <rect key="frame" x="15" y="12" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mTR-We-D4G">
+                                                    <rect key="frame" x="503.5" y="12" width="41.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aiz-de-zeh">
                                 <rect key="frame" x="20" y="91" width="560" height="21"/>
@@ -536,6 +562,7 @@
                         <outlet property="detailsView" destination="gl2-Ix-lZ6" id="Mxs-VR-fEI"/>
                         <outlet property="eventLocationLabel" destination="Aiz-de-zeh" id="89O-i3-Pjr"/>
                         <outlet property="meetingLocationLabel" destination="o3Y-KL-Wfx" id="BIR-WM-FAI"/>
+                        <outlet property="tableView" destination="zlD-YE-aCv" id="jXg-mo-YFl"/>
                         <segue destination="Ob8-sF-Zd9" kind="show" identifier="eventRSVP" id="J6X-U3-Opg"/>
                         <segue destination="uhy-x1-qhD" kind="show" identifier="rsvpCarpoolingNoCycling" id="sZq-vI-WPx"/>
                         <segue destination="PlA-Pe-tmV" kind="show" identifier="rsvpCyclingNoCarpooling" id="Ig6-Rg-klk"/>
