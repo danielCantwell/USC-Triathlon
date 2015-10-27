@@ -13,11 +13,11 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var eventsTable: UITableView!
     var events: NSMutableArray?
     var eventToPass: PFObject!
+    @IBOutlet weak var eventSegmentControl: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        self.eventsTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.eventsTable.delegate = self
         self.eventsTable.dataSource = self
         
@@ -48,6 +48,28 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
                 
                 self.eventsTable.reloadData()
             }
+        }
+    }
+    
+    @IBAction func typeChanged(sender: AnyObject) {
+        let index = eventSegmentControl.selectedSegmentIndex
+        
+        switch index {
+        case 0:
+            loadData("all")
+            break;
+        case 1:
+            loadData("Practice")
+            break;
+        case 2:
+            loadData("Race")
+            break;
+        case 3:
+            loadData("Event")
+            break;
+        default:
+            loadData("all")
+            break;
         }
     }
 

@@ -73,8 +73,65 @@ class EventDetailsViewController: UIViewController {
         } else if cycling {
             performSegueWithIdentifier("rsvpCyclingNoCarpooling", sender: self)
         } else {
-//            Show and Alert Dialog
+            showRSVPAlert()
         }
+    }
+    
+    func submitRSVP(going: Bool, comments: String) {
+        let eventRSVP = PFObject(className: "RSVP")
+        eventRSVP["user"] = PFUser.currentUser()
+        eventRSVP["going"] = going
+        eventRSVP["drivingSelf"] = false
+        eventRSVP["canDrive"] = false
+        eventRSVP["seats"] = 0
+        eventRSVP["bikeSpots"] = 0
+        eventRSVP["requestingBikeRack"] = false
+        eventRSVP["requestingTeamBike"] = false
+        eventRSVP["comment"] = comments
+        
+        eventRSVP.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            
+            if error == nil {
+                
+                self.event!.addObject(eventRSVP, forKey: "rsvps")
+                self.event?.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    
+                    if error == nil {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
+                }
+            }
+        }
+    }
+    
+    func showRSVPAlert() {
+        //                Create Alert
+        let alertMessage = UIAlertController(title: "RSVP", message: "Are You Going?", preferredStyle: UIAlertControllerStyle.Alert)
+        //                Add Text Input
+        alertMessage.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = "comments (optional)"
+        })
+        //                Add Not Going Button
+        alertMessage.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { Void in
+            //                    Button Click
+            
+            if let comment = alertMessage.textFields?.first?.text as String! {
+                self.submitRSVP(false, comments: comment)
+            } else {
+                self.submitRSVP(false, comments: "")
+            }
+        }))
+        //                Add Going Button
+        alertMessage.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Cancel, handler: { Void in
+            //                    Button Click
+            if let comment = alertMessage.textFields?.first?.text as String! {
+                self.submitRSVP(true, comments: comment)
+            } else {
+                self.submitRSVP(true, comments: "")
+            }
+        }))
+        //                Show Alert
+        self.presentViewController(alertMessage, animated: true, completion: nil)
     }
     
     @IBAction func comment(sender: AnyObject) {
