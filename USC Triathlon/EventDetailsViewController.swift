@@ -56,47 +56,61 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         tableView.delegate = self
         tableView.dataSource = self
         
-        loadData("attendees")
+        loadData("going")
     }
     
     func loadData(type: String) {
         
-        attendees = NSMutableArray()
-        let parseQuery = PFQuery(className: "RSVP")
-        
-        if type == "attendees" {
-            var rsvpList = event?.valueForKey("rsvps") as! [AnyObject]
-            var rsvpIds : [AnyObject] = []
-            for rsvp in rsvpList {
-                var rsvpId = rsvp.valueForKey("objectId") as! String
-                rsvpIds.append(rsvpId)
-            }
-            parseQuery.includeKey("rsvps")
+        if type != "comments" {
+            attendees = NSMutableArray()
+            let parseQuery = PFQuery(className: "RSVP")
             
-            parseQuery.whereKey("objectId", containedIn: rsvpIds)
-        }
-        parseQuery.orderByDescending("name")
-        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-            if error == nil {
-                for object:PFObject in objects! {
-                    self.attendees!.addObject(object)
-                    print("attendee added: " + (object.valueForKey("name") as! String))
-                    
-                    var rsvpUserId = object.valueForKey("user")!.valueForKey("objectId") as! String
-                    // Check if current user has rsvp'd
-                    if rsvpUserId == (PFUser.currentUser()!.valueForKey("objectId") as! String) {
-                        print("same user")
-                    } else {
-                        print("rsvp id: " + rsvpUserId)
-                        print("user id: " + (PFUser.currentUser()!.valueForKey("objectId") as! String))
+            if let rsvpList = (event?.valueForKey("rsvps") as? [AnyObject]) {
+                
+                var rsvpIds : [AnyObject] = []
+                for rsvp in rsvpList {
+                    let rsvpId = rsvp.valueForKey("objectId") as! String
+                    rsvpIds.append(rsvpId)
+                }
+                parseQuery.includeKey("rsvps")
+                
+                parseQuery.whereKey("objectId", containedIn: rsvpIds)
+                
+                var goingRequest = false
+                if type == "going" {
+                    goingRequest = true
+                }
+                parseQuery.whereKey("going", equalTo: goingRequest)
+                parseQuery.orderByDescending("name")
+                parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+                    if error == nil {
+                        for object:PFObject in objects! {
+                            self.attendees!.addObject(object)
+                            print("attendee added: " + (object.valueForKey("name") as! String))
+                            
+                            let rsvpUserId = object.valueForKey("user")!.valueForKey("objectId") as! String
+                            // Check if current user has rsvp'd
+                            if rsvpUserId == (PFUser.currentUser()!.valueForKey("objectId") as! String) {
+                                self.navigationItem.rightBarButtonItem?.enabled = false
+                                if (object.valueForKey("going") as! Bool) {
+                                    self.navigationItem.rightBarButtonItem?.title = "Going"
+                                } else {
+                                    self.navigationItem.rightBarButtonItem?.title = "Not Going"
+                                }
+                            }
+                        }
+                        
+                        let array = self.attendees!.reverseObjectEnumerator().allObjects
+                        self.attendees = array as! NSMutableArray
+                        
+                        self.tableView.reloadData()
                     }
                 }
-                
-                let array = self.attendees!.reverseObjectEnumerator().allObjects
-                self.attendees = array as! NSMutableArray
-                
-                self.tableView.reloadData()
+
             }
+            
+        } else {
+            
         }
     }
     
@@ -105,8 +119,13 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         
         if index == 0 {
             commentButton.hidden = false
+            loadData("comments")
         } else if index == 1 {
             commentButton.hidden = true
+            loadData("going")
+        } else if index == 2 {
+            commentButton.hidden = true
+            loadData("not going")
         }
     }
     
@@ -219,7 +238,12 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         let item = attendees?.objectAtIndex(indexPath.row) as! PFObject
         
         cell.textLabel!.text = item.valueForKey("name") as! String
-        cell.detailTextLabel?.text = "passenger"
+        
+        let index = commentAttendeesSegment.selectedSegmentIndex
+        
+        if index == 1 {
+            cell.detailTextLabel?.text = "passenger"
+        }
         
         return cell
     }

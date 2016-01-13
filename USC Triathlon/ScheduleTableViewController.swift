@@ -14,6 +14,7 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     var events: NSMutableArray?
     var eventToPass: PFObject!
     @IBOutlet weak var eventSegmentControl: UISegmentedControl!
+    @IBOutlet weak var addEventButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
