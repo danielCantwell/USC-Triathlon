@@ -11,11 +11,11 @@ import UIKit
 class CreateNewsViewController: UIViewController {
     
     var news: PFObject?
+    var newsTypeIndex: Int!
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleText: UITextField!
     @IBOutlet weak var details: UITextView!
-    @IBOutlet weak var newsSelector: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +28,6 @@ class CreateNewsViewController: UIViewController {
         details.layer.borderColor = UIColor.lightGrayColor().CGColor
         details.layer.borderWidth = 0.5
         details.layer.cornerRadius = 5
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    @IBAction func newsTypeSelector(sender: AnyObject) {
-        let newsTypeIndex = newsSelector.selectedSegmentIndex
         
         if newsTypeIndex == 0 {
             titleLabel.hidden = false
@@ -45,6 +36,12 @@ class CreateNewsViewController: UIViewController {
             titleLabel.hidden = true
             titleText.hidden = true
         }
+        
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     func createNews(sender: AnyObject) {
@@ -52,8 +49,6 @@ class CreateNewsViewController: UIViewController {
         var newsTitle : String?
         var newsDetails : String?
         var newsType : String?
-        
-        let newsTypeIndex = newsSelector.selectedSegmentIndex
         
         var okToSave = false
         
@@ -78,6 +73,7 @@ class CreateNewsViewController: UIViewController {
             newsType = "Chat"
             
             if (details.text != "") {
+                newsTitle = ""
                 newsDetails = details.text as String!
                 
                 okToSave = true
