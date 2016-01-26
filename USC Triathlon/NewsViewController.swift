@@ -23,6 +23,9 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.newsTable.delegate = self
         self.newsTable.dataSource = self
         
+        newsTable.estimatedRowHeight = 200.0
+        newsTable.rowHeight = UITableViewAutomaticDimension
+        
         index = newsTypeSelector.selectedSegmentIndex
         loadData(index!)
     }
@@ -39,22 +42,25 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func loadData(typeIndex: Int) {
         news = NSMutableArray()
-        let parseQuery = PFQuery(className: "News")
+        var parseQuery : PFQuery!
         
         var type : String!
         switch typeIndex {
         case 0:
-            type = "News"
+//            type = "News"
+            parseQuery = PFQuery(className: "News")
             break
         case 1:
-            type = "Chat"
+//            type = "Chat"
+            parseQuery = PFQuery(className: "Chat")
             break
         default:
-            type = "News"
+//            type = "News"
+            parseQuery = PFQuery(className: "News")
             break
         }
         
-        parseQuery.whereKey("type", equalTo: type)
+//        parseQuery.whereKey("type", equalTo: type)
         parseQuery.orderByAscending("createdAt")
         parseQuery.includeKey("user");
         
@@ -109,26 +115,54 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
             dateFormatter.dateFormat = "EEE M/dd/YY"
             
             cell.textLabel!.text = item.valueForKey("title") as! String
+            let dateString = dateFormatter.stringFromDate(date)
+            cell.detailTextLabel?.text = dateString
             
         } else {
-            dateFormatter.dateFormat = "h:mm a EEE M/dd/YY"
+            dateFormatter.dateFormat = "h:mm a  M/dd/YY"
+            let lastname = item.valueForKey("user")?.valueForKey("lastname") as! String
+            let firstname = item.valueForKey("user")?.valueForKey("firstname") as! String
+            let username = firstname + " " + lastname
             
-            cell.textLabel!.text = item.valueForKey("details") as! String
+            cell.textLabel!.text = item.valueForKey("message") as! String
+            cell.textLabel!.numberOfLines = 0;
+            cell.textLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            cell.detailTextLabel!.textAlignment = NSTextAlignment.Right
+            
+//            cell.sizeToFit()
+//            cell.textLabel!.sizeToFit()
+            let dateString = dateFormatter.stringFromDate(date)
+            cell.detailTextLabel?.text = username + "    " + dateString
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
         }
-        
-        let dateString = dateFormatter.stringFromDate(date)
-        cell.detailTextLabel?.text = dateString
         
         return cell
     }
+    
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        let item = news?.objectAtIndex(indexPath.row) as! PFObject
+//        var text : NSString = item.valueForKey("message") as! String
+//        
+//        var cellFont = UIFont().fontWithSize(17.0)
+//        var constraintSize = CGSizeMake(280.0, CGFloat(MAXFLOAT))
+//        var labelSize =
+//        
+//        UIFont *cellFont = [UIFont fontWithName:@"Helvetica" size:17.0];
+//        CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
+//        CGSize labelSize = [cellText sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:UILineBreakModeWordWrap];
+//        
+//        return labelSize.height + 20;
+//    }
     
     //    Handle cell selection
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         // Get Cell Label
-//        let indexPath = tableView.indexPathForSelectedRow;
-//        let object = news?.objectAtIndex(indexPath!.row) as! PFObject
-//        
+        let indexPath = tableView.indexPathForSelectedRow;
+        
+        let object = news?.objectAtIndex(indexPath!.row) as! PFObject
+//
 //        eventToPass = object
 //        performSegueWithIdentifier("eventDetails", sender: self)
         

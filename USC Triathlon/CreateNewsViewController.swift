@@ -50,17 +50,30 @@ class CreateNewsViewController: UIViewController {
         var newsDetails : String?
         var newsType : String?
         
-        var okToSave = false
-        
         switch newsTypeIndex {
         case 0:
-            newsType = "News"
+            newsType = "Announcement"
             
             if (titleText.text != "" && details.text != "") {
                 newsTitle = titleText.text as String!
                 newsDetails = details.text as String!
                 
-                okToSave = true
+                news = PFObject(className: "News")
+                news!["user"] = PFUser.currentUser()
+                news!.setObject(newsTitle!, forKey: "title")
+                news!.setObject(newsDetails!, forKey: "details")
+                news!.setObject(newsType!, forKey: "type")
+                
+                news!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
+                    
+                    if error == nil {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    } else {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.performSegueWithIdentifier("segueCancel", sender: self)
+                        }
+                    }
+                })
                 
             } else if (titleText.text == "") {
                 titleText.text = "Please enter a title for your news entry"
@@ -70,13 +83,24 @@ class CreateNewsViewController: UIViewController {
             
             break
         case 1:
-            newsType = "Chat"
             
             if (details.text != "") {
-                newsTitle = ""
                 newsDetails = details.text as String!
                 
-                okToSave = true
+                news = PFObject(className: "Chat")
+                news!["user"] = PFUser.currentUser()
+                news!.setObject(newsDetails!, forKey: "message")
+                
+                news!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
+                    
+                    if error == nil {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    } else {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.performSegueWithIdentifier("segueCancel", sender: self)
+                        }
+                    }
+                })
             } else {
                 details.text = "Please enter a description for your news entry"
             }
@@ -85,25 +109,6 @@ class CreateNewsViewController: UIViewController {
         default:
             newsType = "News"
             break
-        }
-        
-        if (okToSave) {
-            news = PFObject(className: "News")
-            news!["user"] = PFUser.currentUser()
-            news!.setObject(newsTitle!, forKey: "title")
-            news!.setObject(newsDetails!, forKey: "details")
-            news!.setObject(newsType!, forKey: "type")
-
-            news!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
-                
-                if error == nil {
-                    self.navigationController?.popViewControllerAnimated(true)
-                } else {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.performSegueWithIdentifier("segueCancel", sender: self)
-                    }
-                }
-            })
         }
     }
 
