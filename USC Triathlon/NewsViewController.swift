@@ -13,8 +13,11 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var newsTable: UITableView!
     @IBOutlet weak var newsTypeSelector: UISegmentedControl!
+    
     var news: NSMutableArray?
     var index: Int?
+    
+    @IBOutlet weak var addNewsButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,19 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         index = newsTypeSelector.selectedSegmentIndex
         loadData(index!)
+        
+        let tempBarButton = addNewsButton
+        addNewsButton = nil
+        
+        let query = PFQuery(className: "Role")
+        query.whereKey("name", equalTo: "officer")
+        query.whereKey("users", equalTo: PFUser.currentUser()!)
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+            if error == nil {
+                
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -118,6 +134,8 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
             let dateString = dateFormatter.stringFromDate(date)
             cell.detailTextLabel?.text = dateString
             
+            cell.selectionStyle = UITableViewCellSelectionStyle.Default
+            
         } else {
             dateFormatter.dateFormat = "h:mm a  M/dd/YY"
             let lastname = item.valueForKey("user")?.valueForKey("lastname") as! String
@@ -129,8 +147,6 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.textLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
             cell.detailTextLabel!.textAlignment = NSTextAlignment.Right
             
-//            cell.sizeToFit()
-//            cell.textLabel!.sizeToFit()
             let dateString = dateFormatter.stringFromDate(date)
             cell.detailTextLabel?.text = username + "    " + dateString
             

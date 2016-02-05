@@ -242,7 +242,7 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         let index = commentAttendeesSegment.selectedSegmentIndex
         
         if index == 1 {
-            cell.detailTextLabel?.text = "passenger"
+            cell.detailTextLabel?.text = ""
         }
         
         return cell
