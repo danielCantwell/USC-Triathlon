@@ -1,0 +1,3 @@
+[submodule "USC-Triathlon-Server"]
+	path = USC-Triathlon-Server
+	url = https://github.com/danielCantwell/USC-Triathlon-Server.git
