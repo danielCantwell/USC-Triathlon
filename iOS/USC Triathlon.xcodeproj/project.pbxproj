@@ -1,0 +1,419 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7601FF521BDD7C6D0032FCEF /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7601FF511BDD7C6D0032FCEF /* TabBarViewController.swift */; };
+		763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D31BD70CA400E175D1 /* LoginViewController.swift */; };
+		763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D51BD70CE200E175D1 /* SignUpViewController.swift */; };
+		763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735D71BD70CF600E175D1 /* NewsViewController.swift */; };
+		763735DC1BD70D7900E175D1 /* NewsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */; };
+		763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */; };
+		763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */; };
+		763735E81BD7116200E175D1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735E61BD7116200E175D1 /* Bolts.framework */; };
+		763735E91BD7116200E175D1 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735E71BD7116200E175D1 /* Parse.framework */; };
+		763735EF1BD7131300E175D1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735EE1BD7131300E175D1 /* AudioToolbox.framework */; };
+		763735F11BD7131A00E175D1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F01BD7131A00E175D1 /* CFNetwork.framework */; };
+		763735F31BD7132300E175D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F21BD7132300E175D1 /* CoreGraphics.framework */; };
+		763735F51BD7132A00E175D1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F41BD7132A00E175D1 /* CoreLocation.framework */; };
+		763735F71BD7133400E175D1 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F61BD7133400E175D1 /* MobileCoreServices.framework */; };
+		763735F91BD7133C00E175D1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735F81BD7133C00E175D1 /* QuartzCore.framework */; };
+		763735FB1BD7134400E175D1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735FA1BD7134400E175D1 /* Security.framework */; };
+		763735FD1BD7134D00E175D1 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735FC1BD7134D00E175D1 /* StoreKit.framework */; };
+		763735FF1BD7135400E175D1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 763735FE1BD7135400E175D1 /* SystemConfiguration.framework */; };
+		763736011BD7137700E175D1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736001BD7137700E175D1 /* libz.tbd */; };
+		763736031BD7138000E175D1 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 763736021BD7138000E175D1 /* libsqlite3.tbd */; };
+		765336331C728AA0005F38AE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765336321C728AA0005F38AE /* API.swift */; };
+		76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B621BD86A4C002B7765 /* CreateEventViewController.swift */; };
+		76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */; };
+		76874F5E1C46D40C0094129E /* CreateNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76874F5D1C46D40C0094129E /* CreateNewsViewController.swift */; };
+		76BD4D8A1BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */; };
+		76BD4D8C1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */; };
+		76DFF6001BD95501004BC91B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DFF5FF1BD95501004BC91B /* Event.swift */; };
+		76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */; };
+		76FBEAA31BD6C4FB00844FED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA11BD6C4FB00844FED /* Main.storyboard */; };
+		76FBEAA51BD6C4FB00844FED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA41BD6C4FB00844FED /* Assets.xcassets */; };
+		76FBEAA81BD6C4FB00844FED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76FBEAA61BD6C4FB00844FED /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7601FF511BDD7C6D0032FCEF /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		763735D31BD70CA400E175D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		763735D51BD70CE200E175D1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		763735D71BD70CF600E175D1 /* NewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
+		763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailsViewController.swift; sourceTree = "<group>"; };
+		763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
+		763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRSVPViewController.swift; sourceTree = "<group>"; };
+		763735E61BD7116200E175D1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		763735E71BD7116200E175D1 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		763735EB1BD7127000E175D1 /* USC Triathlon-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "USC Triathlon-Bridging-Header.h"; sourceTree = "<group>"; };
+		763735EE1BD7131300E175D1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		763735F01BD7131A00E175D1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		763735F21BD7132300E175D1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		763735F41BD7132A00E175D1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		763735F61BD7133400E175D1 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		763735F81BD7133C00E175D1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		763735FA1BD7134400E175D1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		763735FC1BD7134D00E175D1 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		763735FE1BD7135400E175D1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		763736001BD7137700E175D1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		763736021BD7138000E175D1 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		765336321C728AA0005F38AE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		76547B621BD86A4C002B7765 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
+		76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
+		76874F5D1C46D40C0094129E /* CreateNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewsViewController.swift; sourceTree = "<group>"; };
+		76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRSVPCarpoolingViewController.swift; sourceTree = "<group>"; };
+		76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRSVPCyclingViewController.swift; sourceTree = "<group>"; };
+		76DFF5FF1BD95501004BC91B /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		76FBEA981BD6C4FB00844FED /* USC Triathlon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "USC Triathlon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		76FBEAA21BD6C4FB00844FED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		76FBEAA41BD6C4FB00844FED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		76FBEAA71BD6C4FB00844FED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		76FBEAA91BD6C4FB00844FED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		76FBEA951BD6C4FB00844FED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				763736031BD7138000E175D1 /* libsqlite3.tbd in Frameworks */,
+				763736011BD7137700E175D1 /* libz.tbd in Frameworks */,
+				763735FF1BD7135400E175D1 /* SystemConfiguration.framework in Frameworks */,
+				763735FD1BD7134D00E175D1 /* StoreKit.framework in Frameworks */,
+				763735FB1BD7134400E175D1 /* Security.framework in Frameworks */,
+				763735F91BD7133C00E175D1 /* QuartzCore.framework in Frameworks */,
+				763735F71BD7133400E175D1 /* MobileCoreServices.framework in Frameworks */,
+				763735F51BD7132A00E175D1 /* CoreLocation.framework in Frameworks */,
+				763735F31BD7132300E175D1 /* CoreGraphics.framework in Frameworks */,
+				763735F11BD7131A00E175D1 /* CFNetwork.framework in Frameworks */,
+				763735EF1BD7131300E175D1 /* AudioToolbox.framework in Frameworks */,
+				763735E91BD7116200E175D1 /* Parse.framework in Frameworks */,
+				763735E81BD7116200E175D1 /* Bolts.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		763735E51BD7109A00E175D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				763736021BD7138000E175D1 /* libsqlite3.tbd */,
+				763736001BD7137700E175D1 /* libz.tbd */,
+				763735FE1BD7135400E175D1 /* SystemConfiguration.framework */,
+				763735FC1BD7134D00E175D1 /* StoreKit.framework */,
+				763735FA1BD7134400E175D1 /* Security.framework */,
+				763735F81BD7133C00E175D1 /* QuartzCore.framework */,
+				763735F61BD7133400E175D1 /* MobileCoreServices.framework */,
+				763735F41BD7132A00E175D1 /* CoreLocation.framework */,
+				763735F21BD7132300E175D1 /* CoreGraphics.framework */,
+				763735F01BD7131A00E175D1 /* CFNetwork.framework */,
+				763735EE1BD7131300E175D1 /* AudioToolbox.framework */,
+				763735E61BD7116200E175D1 /* Bolts.framework */,
+				763735E71BD7116200E175D1 /* Parse.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		76FBEA8F1BD6C4FB00844FED = {
+			isa = PBXGroup;
+			children = (
+				763735E51BD7109A00E175D1 /* Frameworks */,
+				76FBEA9A1BD6C4FB00844FED /* USC Triathlon */,
+				76FBEA991BD6C4FB00844FED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		76FBEA991BD6C4FB00844FED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				76FBEA981BD6C4FB00844FED /* USC Triathlon.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		76FBEA9A1BD6C4FB00844FED /* USC Triathlon */ = {
+			isa = PBXGroup;
+			children = (
+				76FBEA9B1BD6C4FB00844FED /* AppDelegate.swift */,
+				76FBEAA41BD6C4FB00844FED /* Assets.xcassets */,
+				76547B621BD86A4C002B7765 /* CreateEventViewController.swift */,
+				763735DD1BD70DA800E175D1 /* EventDetailsViewController.swift */,
+				763735DF1BD70EC400E175D1 /* EventRSVPViewController.swift */,
+				76FBEAA91BD6C4FB00844FED /* Info.plist */,
+				76FBEAA61BD6C4FB00844FED /* LaunchScreen.storyboard */,
+				763735D31BD70CA400E175D1 /* LoginViewController.swift */,
+				76FBEAA11BD6C4FB00844FED /* Main.storyboard */,
+				76874F5D1C46D40C0094129E /* CreateNewsViewController.swift */,
+				7601FF511BDD7C6D0032FCEF /* TabBarViewController.swift */,
+				763735DB1BD70D7900E175D1 /* NewsDetailsViewController.swift */,
+				763735D71BD70CF600E175D1 /* NewsViewController.swift */,
+				76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */,
+				763735D51BD70CE200E175D1 /* SignUpViewController.swift */,
+				763735EB1BD7127000E175D1 /* USC Triathlon-Bridging-Header.h */,
+				76DFF5FF1BD95501004BC91B /* Event.swift */,
+				76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */,
+				76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */,
+				765336321C728AA0005F38AE /* API.swift */,
+			);
+			path = "USC Triathlon";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		76FBEA971BD6C4FB00844FED /* USC Triathlon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76FBEAAC1BD6C4FB00844FED /* Build configuration list for PBXNativeTarget "USC Triathlon" */;
+			buildPhases = (
+				76FBEA941BD6C4FB00844FED /* Sources */,
+				76FBEA951BD6C4FB00844FED /* Frameworks */,
+				76FBEA961BD6C4FB00844FED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "USC Triathlon";
+			productName = "USC Triathlon";
+			productReference = 76FBEA981BD6C4FB00844FED /* USC Triathlon.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		76FBEA901BD6C4FB00844FED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Cantwell Code";
+				TargetAttributes = {
+					76FBEA971BD6C4FB00844FED = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 76FBEA931BD6C4FB00844FED /* Build configuration list for PBXProject "USC Triathlon" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 76FBEA8F1BD6C4FB00844FED;
+			productRefGroup = 76FBEA991BD6C4FB00844FED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				76FBEA971BD6C4FB00844FED /* USC Triathlon */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		76FBEA961BD6C4FB00844FED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FBEAA81BD6C4FB00844FED /* LaunchScreen.storyboard in Resources */,
+				76FBEAA51BD6C4FB00844FED /* Assets.xcassets in Resources */,
+				76FBEAA31BD6C4FB00844FED /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		76FBEA941BD6C4FB00844FED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76BD4D8C1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift in Sources */,
+				763735DC1BD70D7900E175D1 /* NewsDetailsViewController.swift in Sources */,
+				76BD4D8A1BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift in Sources */,
+				763735DE1BD70DA800E175D1 /* EventDetailsViewController.swift in Sources */,
+				765336331C728AA0005F38AE /* API.swift in Sources */,
+				763735D61BD70CE200E175D1 /* SignUpViewController.swift in Sources */,
+				763735E01BD70EC400E175D1 /* EventRSVPViewController.swift in Sources */,
+				76DFF6001BD95501004BC91B /* Event.swift in Sources */,
+				763735D41BD70CA400E175D1 /* LoginViewController.swift in Sources */,
+				76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */,
+				76FBEA9C1BD6C4FB00844FED /* AppDelegate.swift in Sources */,
+				7601FF521BDD7C6D0032FCEF /* TabBarViewController.swift in Sources */,
+				763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */,
+				76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */,
+				76874F5E1C46D40C0094129E /* CreateNewsViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		76FBEAA11BD6C4FB00844FED /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76FBEAA21BD6C4FB00844FED /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		76FBEAA61BD6C4FB00844FED /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76FBEAA71BD6C4FB00844FED /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		76FBEAAA1BD6C4FB00844FED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		76FBEAAB1BD6C4FB00844FED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		76FBEAAD1BD6C4FB00844FED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "USC Triathlon/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cantwellcode.USC-Triathlon";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "USC Triathlon/USC Triathlon-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		76FBEAAE1BD6C4FB00844FED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "USC Triathlon/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cantwellcode.USC-Triathlon";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "USC Triathlon/USC Triathlon-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		76FBEA931BD6C4FB00844FED /* Build configuration list for PBXProject "USC Triathlon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FBEAAA1BD6C4FB00844FED /* Debug */,
+				76FBEAAB1BD6C4FB00844FED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76FBEAAC1BD6C4FB00844FED /* Build configuration list for PBXNativeTarget "USC Triathlon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FBEAAD1BD6C4FB00844FED /* Debug */,
+				76FBEAAE1BD6C4FB00844FED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 76FBEA901BD6C4FB00844FED /* Project object */;
+}
