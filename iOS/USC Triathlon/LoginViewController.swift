@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, LoginListener {
     
     @IBOutlet weak var loginEmail: UITextField!
     @IBOutlet weak var loginPassword: UITextField!
@@ -21,11 +21,12 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         
 //        Check if the user is already logged in
+        /*
         if PFUser.currentUser() != nil {
             dispatch_async(dispatch_get_main_queue()) {
                 self.performSegueWithIdentifier("segueLogin", sender: self)
             }
-        }
+        }*/
         
         activityIndicator.hidden = true
         activityIndicator.hidesWhenStopped = true
@@ -55,6 +56,9 @@ class LoginViewController: UIViewController {
             
             userEmail = userEmail!.lowercaseString
             
+            API().MemberLogin(self, email: userEmail, password: userPassword)
+            
+/*
             // email and password are present, attempt to login
             PFUser.logInWithUsernameInBackground(userEmail, password: userPassword) {
                 (user: PFUser?, error: NSError?) -> Void in
@@ -71,6 +75,7 @@ class LoginViewController: UIViewController {
                     self.loginPassword.text = ""
                 }
             }
+*/
             
         } else if loginEmail.text == "" {
             self.loginEmail.placeholder = "usc email (required)"
@@ -78,6 +83,30 @@ class LoginViewController: UIViewController {
             self.loginPassword.placeholder = "password (required)"
         }
         
+    }
+    
+    // LOGIN LISTENERS
+    
+    func loginSuccess(authData: NSDictionary) {
+        print("login successful")
+        // User Exists
+        dispatch_async(dispatch_get_main_queue()) {
+            self.performSegueWithIdentifier("segueLogin", sender: self)
+        }
+//
+    }
+    
+    func loginFailure(error: String) {
+        print("login failure")
+        print(error)
+        // User Does Not Exist
+        dispatch_async(dispatch_get_main_queue()) {
+            self.activityIndicator.stopAnimating()
+            self.loginEmail.text = ""
+            self.loginEmail.placeholder = "usc email... login failed"
+            self.loginPassword.text = ""
+        }
+//
     }
     
 

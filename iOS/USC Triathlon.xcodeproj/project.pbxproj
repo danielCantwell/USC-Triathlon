@@ -30,6 +30,7 @@
 		765336331C728AA0005F38AE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765336321C728AA0005F38AE /* API.swift */; };
 		76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B621BD86A4C002B7765 /* CreateEventViewController.swift */; };
 		76547B651BD8A8E5002B7765 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */; };
+		766DB3961C7E3DFF000F7116 /* APIObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DB3951C7E3DFF000F7116 /* APIObserver.swift */; };
 		76874F5E1C46D40C0094129E /* CreateNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76874F5D1C46D40C0094129E /* CreateNewsViewController.swift */; };
 		76BD4D8A1BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */; };
 		76BD4D8C1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */; };
@@ -65,6 +66,7 @@
 		765336321C728AA0005F38AE /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		76547B621BD86A4C002B7765 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateEventViewController.swift; sourceTree = "<group>"; };
 		76547B641BD8A8E5002B7765 /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
+		766DB3951C7E3DFF000F7116 /* APIObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIObserver.swift; sourceTree = "<group>"; };
 		76874F5D1C46D40C0094129E /* CreateNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewsViewController.swift; sourceTree = "<group>"; };
 		76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRSVPCarpoolingViewController.swift; sourceTree = "<group>"; };
 		76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventRSVPCyclingViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				76BD4D891BDB57A1004515E4 /* EventRSVPCarpoolingViewController.swift */,
 				76BD4D8B1BDB57AE004515E4 /* EventRSVPCyclingViewController.swift */,
 				765336321C728AA0005F38AE /* API.swift */,
+				766DB3951C7E3DFF000F7116 /* APIObserver.swift */,
 			);
 			path = "USC Triathlon";
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				7601FF521BDD7C6D0032FCEF /* TabBarViewController.swift in Sources */,
 				763735D81BD70CF600E175D1 /* NewsViewController.swift in Sources */,
 				76547B631BD86A4C002B7765 /* CreateEventViewController.swift in Sources */,
+				766DB3961C7E3DFF000F7116 /* APIObserver.swift in Sources */,
 				76874F5E1C46D40C0094129E /* CreateNewsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

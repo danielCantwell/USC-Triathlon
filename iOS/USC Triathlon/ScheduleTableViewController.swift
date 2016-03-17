@@ -33,9 +33,7 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         events = NSMutableArray()
         let parseQuery = PFQuery(className: "Event")
         
-        if type != "all" {
-            parseQuery.whereKey("type", equalTo: type)
-        }
+        parseQuery.whereKey("type", equalTo: type)
         parseQuery.orderByDescending("date")
         parseQuery.whereKey("date", greaterThanOrEqualTo: NSCalendar.currentCalendar().startOfDayForDate(NSDate()))
         parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
@@ -57,19 +55,15 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         
         switch index {
         case 0:
-            loadData("all")
-            break;
-        case 1:
             loadData("Practice")
             break;
-        case 2:
+        case 1:
             loadData("Race")
             break;
-        case 3:
-            loadData("Event")
+        case 2:
+            loadData("Other")
             break;
         default:
-            loadData("all")
             break;
         }
     }

@@ -13,13 +13,9 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
     var event: PFObject?
     var attendees: NSMutableArray?
     
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailsView: UITextView!
-    @IBOutlet weak var eventLocationLabel: UILabel!
     @IBOutlet weak var meetingLocationLabel: UILabel!
-    @IBOutlet weak var commentButton: UIButton!
-    @IBOutlet weak var commentAttendeesSegment: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +37,8 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationItem.title = name
         dateLabel.text = type + dateString
         detailsView.text = eventDetails
-        eventLocationLabel.text = eventLocation
         meetingLocationLabel.text = "Meeting at " + meetingLocation
         
-        commentButton.hidden = true
         
         let rsvpButton = UIBarButtonItem(title: "RSVP", style: UIBarButtonItemStyle.Plain, target: self, action: "rsvp:")
         self.navigationItem.rightBarButtonItem = rsvpButton
@@ -52,9 +46,6 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         detailsView.layer.borderColor = UIColor.lightGrayColor().CGColor
         detailsView.layer.borderWidth = 0.5
         detailsView.layer.cornerRadius = 10
-        
-        tableView.delegate = self
-        tableView.dataSource = self
         
         loadData("going")
     }
@@ -103,7 +94,7 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
                         let array = self.attendees!.reverseObjectEnumerator().allObjects
                         self.attendees = array as! NSMutableArray
                         
-                        self.tableView.reloadData()
+//                        self.tableView.reloadData()
                     }
                 }
 
@@ -111,21 +102,6 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
             
         } else {
             
-        }
-    }
-    
-    @IBAction func commentsAttendees(sender: AnyObject) {
-        let index = commentAttendeesSegment.selectedSegmentIndex
-        
-        if index == 0 {
-            commentButton.hidden = false
-            loadData("comments")
-        } else if index == 1 {
-            commentButton.hidden = true
-            loadData("going")
-        } else if index == 2 {
-            commentButton.hidden = true
-            loadData("not going")
         }
     }
     
@@ -144,20 +120,16 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func submitRSVP(going: Bool, comments: String) {
+    func submitRSVP(going: String, comments: String) {
+        
+        
         let firstName = PFUser.currentUser()?.valueForKey("firstname") as! String
         let lastName = PFUser.currentUser()?.valueForKey("lastname") as! String
         
         let eventRSVP = PFObject(className: "RSVP")
         eventRSVP["user"] = PFUser.currentUser()
         eventRSVP["name"] = firstName + " " + lastName
-        eventRSVP["going"] = going
-        eventRSVP["drivingSelf"] = false
-        eventRSVP["canDrive"] = false
-        eventRSVP["seats"] = 0
-        eventRSVP["bikeSpots"] = 0
-        eventRSVP["requestingBikeRack"] = false
-        eventRSVP["requestingTeamBike"] = false
+        eventRSVP["status"] = going
         eventRSVP["comment"] = comments
         
         eventRSVP.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
@@ -177,36 +149,45 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
     
     func showRSVPAlert() {
         //                Create Alert
-        let alertMessage = UIAlertController(title: "RSVP", message: "Are You Going?", preferredStyle: UIAlertControllerStyle.Alert)
+        let alertMessage = UIAlertController(title: "RSVP", message: "How are you getting there?", preferredStyle: UIAlertControllerStyle.Alert)
+        //                Add Text Field
+        alertMessage.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.text = "Your car holds 4 people and 3 bikes"
+            textField.userInteractionEnabled = false
+        })
         //                Add Text Input
         alertMessage.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
             textField.placeholder = "comments (optional)"
         })
+        //                Add Going Button
+        alertMessage.addAction(UIAlertAction(title: "Passenger", style: UIAlertActionStyle.Default, handler: { Void in
+            //                    Button Click
+            if let comment = alertMessage.textFields?.first?.text as String! {
+                self.submitRSVP("Passenger", comments: comment)
+            } else {
+                self.submitRSVP("Passenger", comments: "")
+            }
+        }))
+        alertMessage.addAction(UIAlertAction(title: "Driver", style: UIAlertActionStyle.Default, handler: { Void in
+            //                    Button Click
+            if let comment = alertMessage.textFields?.first?.text as String! {
+                self.submitRSVP("Driver", comments: comment)
+            } else {
+                self.submitRSVP("Driver", comments: "")
+            }
+        }))
         //                Add Not Going Button
-        alertMessage.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { Void in
+        alertMessage.addAction(UIAlertAction(title: "Alone", style: UIAlertActionStyle.Default, handler: { Void in
             //                    Button Click
             
             if let comment = alertMessage.textFields?.first?.text as String! {
-                self.submitRSVP(false, comments: comment)
+                self.submitRSVP("Going", comments: comment)
             } else {
-                self.submitRSVP(false, comments: "")
-            }
-        }))
-        //                Add Going Button
-        alertMessage.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Cancel, handler: { Void in
-            //                    Button Click
-            if let comment = alertMessage.textFields?.first?.text as String! {
-                self.submitRSVP(true, comments: comment)
-            } else {
-                self.submitRSVP(true, comments: "")
+                self.submitRSVP("Going", comments: "")
             }
         }))
         //                Show Alert
         self.presentViewController(alertMessage, animated: true, completion: nil)
-    }
-    
-    @IBAction func comment(sender: AnyObject) {
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -238,12 +219,6 @@ class EventDetailsViewController: UIViewController, UITableViewDelegate, UITable
         let item = attendees?.objectAtIndex(indexPath.row) as! PFObject
         
         cell.textLabel!.text = item.valueForKey("name") as! String
-        
-        let index = commentAttendeesSegment.selectedSegmentIndex
-        
-        if index == 1 {
-            cell.detailTextLabel?.text = ""
-        }
         
         return cell
     }
