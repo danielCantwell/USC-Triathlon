@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, SignUpListener {
     
     @IBOutlet weak var signupFirstName: UITextField!
     @IBOutlet weak var signupLastName: UITextField!
@@ -30,50 +30,12 @@ class SignUpViewController: UIViewController {
         signupPassword.secureTextEntry = true
     }
     
-    func signup(first: String, last: String, email: String, password: String, memberType: String) {
+    func signup(first: String, last: String, email: String, password: String, isOfficer: Bool) {
         
         activityIndicator.hidden = false
         activityIndicator.startAnimating()
         
-//        Create User with specified information
-        let user = PFUser()
-        user.username = email
-        user.password = password
-        user.email = email
-//        Set name values
-        user.setValue(first, forKey: "firstname")
-        user.setValue(last, forKey: "lastname")
-        
-        user.signUpInBackgroundWithBlock {
-            (succeeded: Bool, error: NSError?) -> Void in
-            if error == nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-//                    Add user to the member role by default (can be upgraded to other roles later)
-                    let queryRole = PFRole.query()
-                    queryRole?.whereKey("name", equalTo: memberType)
-                    queryRole?.getFirstObjectInBackgroundWithBlock {
-                        (roleObject: PFObject?, error: NSError?) -> Void in
-                        if error == nil {
-//                            Assign user to role
-                            let roleToAddUser = roleObject as! PFRole
-                            roleToAddUser.users.addObject(user)
-                            roleToAddUser.saveInBackground()
-                        }
-                    }
-                    
-//                    User signed up, continue to application
-                    self.performSegueWithIdentifier("segueSignup", sender: self)
-                }
-            } else {
-//                User signup failed
-                
-                self.activityIndicator.stopAnimating()
-                
-                self.signupEmail.text = ""
-                self.signupEmail.placeholder = "usc email... signup failed"
-            }
-        }
+        API().SignUp(self, email: email, password: password, firstName: first, lastName: last, officer: isOfficer)
     }
     
     @IBAction func memberSignup(sender: AnyObject) {
@@ -90,11 +52,12 @@ class SignUpViewController: UIViewController {
             
             if userEmail!.hasSuffix("@usc.edu") {
                 
-                self.signup(userFirst!, last: userLast!, email: userEmail!, password: userPassword!, memberType: "member")
+                self.signup(userFirst!, last: userLast!, email: userEmail!, password: userPassword!, isOfficer: false)
             } else {
 //                User email must end with @usc.edu
                 self.signupEmail.text = ""
                 self.signupEmail.placeholder = "email must be @usc.edu"
+                self.signupPassword.text = ""
             }
         } else {
             if userFirst == "" {
@@ -151,7 +114,7 @@ class SignUpViewController: UIViewController {
                                 if officerCode == configOfficerCode {
                                     
 //                                    Officer code matches, continue with signup
-                                    self.signup(userFirst!, last: userLast!, email: userEmail!, password: userPassword!, memberType: "officer")
+                                    self.signup(userFirst!, last: userLast!, email: userEmail!, password: userPassword!, isOfficer: true)
                                     
                                 } else {
                                     self.errorMessage.text = "Officer code does not match."
@@ -195,6 +158,40 @@ class SignUpViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    /* Sign Up Listeners */
+    
+    func signUpSuccess(uid: String) {
+        // sign up successful
+        print("signup successful")
+        
+        // Tempory solution to keeping the user logged in
+        var prefs = NSUserDefaults.standardUserDefaults()
+        prefs.setBool(true, forKey: "userExists")
+        prefs.synchronize()
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            self.performSegueWithIdentifier("segueSignup", sender: self)
+        }
+    }
+    
+    func signUpFailure(error: String) {
+        // sign up failure
+        print("signup failed")
+        print(error)
+        
+        // Tempory solution to keeping the user logged in
+        var prefs = NSUserDefaults.standardUserDefaults()
+        prefs.setBool(false, forKey: "userExists")
+        prefs.synchronize()
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            self.activityIndicator.stopAnimating()
+            
+            self.signupEmail.text = ""
+            self.signupEmail.placeholder = "usc email... signup failed"
+        }
     }
     
 

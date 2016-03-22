@@ -21,6 +21,14 @@ class LoginViewController: UIViewController, LoginListener {
         // Do any additional setup after loading the view.
         
 //        Check if the user is already logged in
+        var prefs = NSUserDefaults.standardUserDefaults()
+        if prefs.boolForKey("userExists") {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.performSegueWithIdentifier("segueLogin", sender: self)
+            }
+        }
+        
+        
         /*
         if PFUser.currentUser() != nil {
             dispatch_async(dispatch_get_main_queue()) {
@@ -89,16 +97,31 @@ class LoginViewController: UIViewController, LoginListener {
     
     func loginSuccess(authData: NSDictionary) {
         print("login successful")
+        print(authData)
+
         // User Exists
+//        var prefs = NSUserDefaults.standardUserDefaults()
+//        prefs.setValue(<#T##value: AnyObject?##AnyObject?#>, forKey: <#T##String#>)
+        
+        // Tempory solution to keeping the user logged in
+        var prefs = NSUserDefaults.standardUserDefaults()
+        prefs.setBool(true, forKey: "userExists")
+        prefs.synchronize()
+        
         dispatch_async(dispatch_get_main_queue()) {
             self.performSegueWithIdentifier("segueLogin", sender: self)
         }
-//
     }
     
     func loginFailure(error: String) {
         print("login failure")
         print(error)
+        
+        // Tempory solution to keeping the user logged in
+        var prefs = NSUserDefaults.standardUserDefaults()
+        prefs.setBool(false, forKey: "userExists")
+        prefs.synchronize()
+        
         // User Does Not Exist
         dispatch_async(dispatch_get_main_queue()) {
             self.activityIndicator.stopAnimating()
@@ -106,7 +129,6 @@ class LoginViewController: UIViewController, LoginListener {
             self.loginEmail.placeholder = "usc email... login failed"
             self.loginPassword.text = ""
         }
-//
     }
     
 

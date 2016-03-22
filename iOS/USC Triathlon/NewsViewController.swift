@@ -34,16 +34,6 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let tempBarButton = addNewsButton
         addNewsButton = nil
-        
-        let query = PFQuery(className: "Role")
-        query.whereKey("name", equalTo: "officer")
-        query.whereKey("users", equalTo: PFUser.currentUser()!)
-        
-        query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-            if error == nil {
-                
-            }
-        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,40 +48,59 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func loadData(typeIndex: Int) {
         news = NSMutableArray()
-        var parseQuery : PFQuery!
         
-        var type : String!
-        switch typeIndex {
-        case 0:
-//            type = "News"
-            parseQuery = PFQuery(className: "News")
-            break
-        case 1:
-//            type = "Chat"
-            parseQuery = PFQuery(className: "Chat")
-            break
-        default:
-//            type = "News"
-            parseQuery = PFQuery(className: "News")
-            break
+        if typeIndex == 0 {
+            API().LoadNews({ (data, error) -> () in
+                if error != nil {
+                    print("Could not load news")
+                    print(error)
+                } else {
+                    print("Success loading news")
+//                    print(data)
+                    
+                    let newsDictionary = data!["news"]
+                    for (key, value) in newsDictionary as! [String : Dictionary<String, AnyObject>] {
+//                        print("value: \(value)")
+                        if let a = value["author"] as? String,
+                            let c = value["createdAt"] as? Double,
+                            let m = value["message"] as? String,
+                            let s = value["subject"] as? String {
+                                
+                                print("news item added")
+                                let created = NSDate(timeIntervalSince1970: c / 1000)
+                                
+                                let newsItem = News(id: key, author: a, createdAt: created, message: m, subject: s)
+                                self.news?.addObject(newsItem)
+                        }
+                    }
+                    
+                    let array = self.news!.reverseObjectEnumerator().allObjects
+                    self.news = array as! NSMutableArray
+                    
+                    self.newsTable.reloadData()
+                }
+            })
+        } else if typeIndex == 1 {
+            
         }
+        
         
 //        parseQuery.whereKey("type", equalTo: type)
-        parseQuery.orderByAscending("createdAt")
-        parseQuery.includeKey("user");
-        
-        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-            if error == nil {
-                for object:PFObject in objects! {
-                    self.news!.addObject(object)
-                }
-                
-                let array = self.news!.reverseObjectEnumerator().allObjects
-                self.news = array as! NSMutableArray
-                
-                self.newsTable.reloadData()
-            }
-        }
+//        parseQuery.orderByAscending("createdAt")
+//        parseQuery.includeKey("user");
+//        
+//        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+//            if error == nil {
+//                for object:PFObject in objects! {
+//                    self.news!.addObject(object)
+//                }
+//                
+//                let array = self.news!.reverseObjectEnumerator().allObjects
+//                self.news = array as! NSMutableArray
+//                
+//                self.newsTable.reloadData()
+//            }
+//        }
     }
     
     @IBAction func typeChanged(sender: AnyObject) {
@@ -122,15 +131,15 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCellWithIdentifier("subtitleCell", forIndexPath: indexPath) as UITableViewCell
         
         // Configure the cell...
-        let item = news?.objectAtIndex(indexPath.row) as! PFObject
+        let item = news?.objectAtIndex(indexPath.row) as! News
         
-        let date = item.valueForKey("createdAt") as! NSDate
+        let date = item.createdAt as NSDate
         let dateFormatter = NSDateFormatter()
         
         if index == 0 {
             dateFormatter.dateFormat = "EEE M/dd/YY"
             
-            cell.textLabel!.text = item.valueForKey("title") as! String
+            cell.textLabel!.text = item.subject as String
             let dateString = dateFormatter.stringFromDate(date)
             cell.detailTextLabel?.text = dateString
             
@@ -138,17 +147,14 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         } else {
             dateFormatter.dateFormat = "h:mm a  M/dd/YY"
-            let lastname = item.valueForKey("user")?.valueForKey("lastname") as! String
-            let firstname = item.valueForKey("user")?.valueForKey("firstname") as! String
-            let username = firstname + " " + lastname
             
-            cell.textLabel!.text = item.valueForKey("message") as! String
+            cell.textLabel!.text = item.message as String
             cell.textLabel!.numberOfLines = 0;
             cell.textLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
             cell.detailTextLabel!.textAlignment = NSTextAlignment.Right
             
             let dateString = dateFormatter.stringFromDate(date)
-            cell.detailTextLabel?.text = username + "    " + dateString
+            cell.detailTextLabel?.text = item.author + "    " + dateString
             
             cell.selectionStyle = UITableViewCellSelectionStyle.None
         }
@@ -177,7 +183,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Get Cell Label
         let indexPath = tableView.indexPathForSelectedRow;
         
-        let object = news?.objectAtIndex(indexPath!.row) as! PFObject
+        let object = news?.objectAtIndex(indexPath!.row) as! News
 //
 //        eventToPass = object
 //        performSegueWithIdentifier("eventDetails", sender: self)

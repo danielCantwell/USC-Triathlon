@@ -12,13 +12,16 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let tintColor =  UIColor(red: 242/255, green: 71/255, blue: 63/255, alpha: 1)
+    let tintColor =  UIColor(red: 153/255, green: 0/255, blue: 0/255, alpha: 1)
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         Parse.setApplicationId("sm2VYyUUdC0nlizJJeupPHFbHQaKJvjFG1fG0PzF", clientKey:"6zwrnVriGl2oTrhgTk0eoVpVBDwDQrWTbT6g6jQG")
         window?.tintColor = tintColor
+        UINavigationBar.appearance().barTintColor = tintColor
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         
         return true
     }

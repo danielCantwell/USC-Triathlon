@@ -12,3 +12,8 @@ protocol LoginListener {
     func loginSuccess(authData : NSDictionary) -> Void
     func loginFailure(error: String) -> Void
 }
+
+protocol SignUpListener {
+    func signUpSuccess(uid : String) -> Void
+    func signUpFailure(error: String) -> Void
+}

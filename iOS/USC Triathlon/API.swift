@@ -9,15 +9,59 @@
 import Foundation
 
 class API {
-    let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
-    var dataTask: NSURLSessionDataTask?
+    private let defaultSession = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    private var dataTask: NSURLSessionDataTask?
     
-    static var URL_BASE : String = "http://usctriathlon.herokuapp.com/api/"
-    static var POST_LOGIN : String = { URL_BASE + "login" }()
-    static var POST_SIGNUP : String = { URL_BASE + "signup" }()
-    static var GET_LOAD_EVENTS : String = { URL_BASE + "loadEvents" }()
+    private static let URL_BASE : String = "http://usctriathlon.herokuapp.com/api/"
+    private static let POST_LOGIN : String = { URL_BASE + "login" }()
+    private static let POST_SIGNUP : String = { URL_BASE + "signup" }()
+    private static let POST_ADD_NEWS : String = { URL_BASE + "addNews" }()
+    private static let GET_LOAD_EVENTS : String = { URL_BASE + "loadEvents" }()
+    private static let GET_LOAD_NEWS : String = { URL_BASE + "loadNews" }()
     
-    // API FUNCTIONS
+    // API FUNCTIONS -------------------------------------------------------------------------------------------------
+    
+    // ------------- NEWS
+    
+    func LoadNews(newsHandler: (data: Dictionary<String, AnyObject>?, error: String?) -> ()) {
+        print("Load News")
+        let url = NSURL(string: API.GET_LOAD_NEWS)
+        
+        getJSON(url!, dataHandler: {(data) in
+            if let status = data["status"] as? String {
+                if status == "success" {
+                    newsHandler(data: data, error: nil)
+                } else {
+                    newsHandler(data: nil, error: data["error"] as? String)
+                }
+            } else {
+                newsHandler(data: nil, error: "no data was returned")
+            }
+        })
+    }
+    
+    
+    func AddNews(newsHandler: (error: String?) -> (), author: String, subject: String, message: String) {
+        print("Add News")
+        let params = formatParams(["author" : author, "subject" : subject, "message" : message])
+        let url = NSURL(string: API.POST_ADD_NEWS)
+        
+        postJSON(params, url: url!, dataHandler: {(data) in
+            if let status = data["status"] as? String {
+                if status == "success" {
+                    newsHandler(error: nil)
+                } else {
+                    newsHandler(error: data["error"] as? String)
+                }
+            } else {
+                newsHandler(error: "no data was returned")
+            }
+        })
+    }
+    
+    // ------------- EVENTS
+    
+    // ------------- AUTHENTICATION
     
     func MemberLogin(listener: LoginListener, email: String, password: String) -> Void {
         print("Member Login")
@@ -45,10 +89,35 @@ class API {
         })
     }
     
+    func SignUp(listener: SignUpListener, email: String, password: String, firstName: String, lastName: String, officer: Bool) -> Void {
+        print("Sign Up")
+        let params = formatParams(["email": email, "password": password, "firstName": firstName, "lastName": lastName, "officer": officer])
+        let url = NSURL(string: API.POST_SIGNUP)
+        
+        postJSON(params, url: url!, dataHandler: {(data) in
+            if let status = data["status"] as? String {
+                if status == "success" {
+                    if let uid = data["uid"] as? String {
+                        listener.signUpSuccess(uid)
+                    } else {
+                        listener.signUpFailure("Sign Up was successful, but no uid was returned")
+                    }
+                } else {
+                    if let error = data["error"] as? String {
+                        listener.signUpFailure(error)
+                    } else {
+                        listener.signUpFailure("\(data)\nSign Up was unsuccesful, please try again")
+                    }
+                }
+            } else {
+                listener.signUpFailure("Neither error nor uid was returned")
+            }
+        })
+    }
     
-    // HELPER FUNCTIONS
+    // HELPER FUNCTIONS ---------------------------------------------------------------------------------------------
     
-    private func getJSON(url : NSURL, dataHandler : ([String: AnyObject]) -> ()) -> Void {
+    private func getJSON(url : NSURL, dataHandler : (Dictionary<String, AnyObject>) -> ()) -> Void {
         // show the network activity indicator
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
@@ -64,23 +133,28 @@ class API {
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                do {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    if let data = data, results = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(rawValue:0)) as? [String: AnyObject] {
-                        dataHandler(results)
-                    } else {
-                        dataHandler(["error": "json error"])
-                    }
-                } catch let error as NSError {
-                    print("Error parsing results: \(error.localizedDescription)")
+                if let data = data, results = self.JSONParseDict(data) {
+                    dataHandler(results)
+                } else {
+                    dataHandler(["error": "json error"])
                 }
+//                do {
+//                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+//                    if let data = data, results = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(rawValue:0)) as? [String: AnyObject] {
+//                        dataHandler(results)
+//                    } else {
+//                        dataHandler(["error": "json error"])
+//                    }
+//                } catch let error as NSError {
+//                    print("Error parsing results: \(error.localizedDescription)")
+//                }
             }
         })
         
         dataTask!.resume()
     }
     
-    private func postJSON(params : String, url : NSURL, dataHandler : ([String: AnyObject]) -> ()) -> Void {
+    private func postJSON(params : String, url : NSURL, dataHandler : (Dictionary<String, AnyObject>) -> ()) -> Void {
         // show the network activity indicator
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
@@ -103,24 +177,32 @@ class API {
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                do {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                    if let data = data, results = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(rawValue:0)) as? [String: AnyObject] {
-                        dataHandler(results)
-                    } else {
-                        dataHandler(["error": "json error"])
-                    }
-                } catch let error as NSError {
-                    print("Error parsing results: \(error.localizedDescription)")
-                    dataHandler(["error": "Error parsing results: \(error.localizedDescription)"])
+                
+                if let data = data, results = self.JSONParseDict(data) {
+                    dataHandler(results)
+                } else {
+                    dataHandler(["error": "json error"])
                 }
+                
+//                do {
+//                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+//                    
+//                    if let data = data, results = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(rawValue:0)) as? [String: AnyObject] {
+//                        dataHandler(results)
+//                    } else {
+//                        dataHandler(["error": "json error"])
+//                    }
+//                } catch let error as NSError {
+//                    print("Error parsing results: \(error.localizedDescription)")
+//                    dataHandler(["error": "Error parsing results: \(error.localizedDescription)"])
+//                }
             }
         })
         
         dataTask!.resume()
     }
     
-    private func formatParams(params : Dictionary<String, String>) -> String {
+    private func formatParams(params : Dictionary<String, AnyObject>) -> String {
         var formattedParams : String = ""
         
         for (key, value) in params {
@@ -157,78 +239,31 @@ class API {
         return ""
         
     }
-    
-    private func JSONParseDict(jsonString:String) -> Dictionary<String, AnyObject> {
-        
-        if let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
-                
-                do {
-                    if let jsonObj = try NSJSONSerialization.JSONObjectWithData(
-                        data,
-                        options: NSJSONReadingOptions(rawValue: 0)) as? Dictionary<String, AnyObject>{
-                            return jsonObj
-                    }
-                } catch {
-                    print("Error")
-                }
-        }
-        return [String: AnyObject]()
-    }
-    
-    private func HTTPsendRequest(request: NSMutableURLRequest,callback: (String, String?) -> Void) {
-        
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request,completionHandler :
-            {
-                data, response, error in
-                if error != nil {
-                    callback("", (error!.localizedDescription) as String)
-                } else {
-                    callback(NSString(data: data!, encoding: NSUTF8StringEncoding) as! String,nil)
-                }
-        })
-        
-        task.resume() //Tasks are called with .resume()
-        
-    }
-    
-    private func HTTPGet(url: String, callback: (String, String?) -> Void) {
-        let request = NSMutableURLRequest(URL: NSURL(string: url)!) //To get the URL of the receiver , var URL: NSURL? is used
-        HTTPsendRequest(request, callback: callback)
-    }
-    
-    private func HTTPGetJSON(url: String, callback: (Dictionary<String, AnyObject>, String?) -> Void) {
-            
-            let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            HTTPsendRequest(request) {
-                (data: String, error: String?) -> Void in
-                if error != nil {
-                    callback(Dictionary<String, AnyObject>(), error)
-                } else {
-                    let jsonObj = self.JSONParseDict(data)
-                    callback(jsonObj, nil)
-                }
-            }
-    }
-    
-    private func HTTPPostJSON(url: String, jsonObj: AnyObject, callback: (Dictionary<String, AnyObject>, String?) -> Void) {
-        
-            let request = NSMutableURLRequest(URL: NSURL(string: url)!)
-            request.HTTPMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            let jsonString = JSONStringify(jsonObj)
-            let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
-            request.HTTPBody = data
-        
-            HTTPsendRequest(request) {
-                (data: String, error: String?) -> Void in
-                if error != nil {
-                    callback(Dictionary<String, AnyObject>(), error)
-                } else {
-                    let jsonObj = self.JSONParseDict(data)
-                    callback(jsonObj, nil)
-                }
-            }
-    }
 */
+    private func JSONParseDict(data: NSData) -> Dictionary<String, AnyObject>? {
+        
+        do {
+            if let json = try NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions(rawValue:0)) as? Dictionary<String, AnyObject> {
+                return json
+            }
+        } catch {
+            print("Error parsing JSON dictionary")
+        }
+        
+        
+//        if let data: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
+//                
+//                do {
+//                    if let jsonObj = try NSJSONSerialization.JSONObjectWithData(
+//                        data,
+//                        options: NSJSONReadingOptions(rawValue: 0)) as? Dictionary<String, AnyObject>{
+//                            return jsonObj
+//                    }
+//                } catch {
+//                    print("Error parsing JSON dictionary")
+//                }
+//        }
+        return nil
+    }
+
 }
