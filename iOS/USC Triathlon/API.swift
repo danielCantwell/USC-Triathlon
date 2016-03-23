@@ -41,7 +41,7 @@ class API {
     }
     
     
-    func AddNews(newsHandler: (error: String?) -> (), author: String, subject: String, message: String) {
+    func AddNews(author: String, subject: String, message: String, newsHandler: (error: String?) -> ()) {
         print("Add News")
         let params = formatParams(["author" : author, "subject" : subject, "message" : message])
         let url = NSURL(string: API.POST_ADD_NEWS)
@@ -49,11 +49,14 @@ class API {
         postJSON(params, url: url!, dataHandler: {(data) in
             if let status = data["status"] as? String {
                 if status == "success" {
+                    print("Add News : Success")
                     newsHandler(error: nil)
                 } else {
+                    print("Add News : \(data["error"] as? String)")
                     newsHandler(error: data["error"] as? String)
                 }
             } else {
+                print("Add News : No data was returned")
                 newsHandler(error: "no data was returned")
             }
         })
