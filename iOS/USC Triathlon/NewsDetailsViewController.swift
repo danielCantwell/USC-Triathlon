@@ -9,11 +9,32 @@
 import UIKit
 
 class NewsDetailsViewController: UIViewController {
+    
+    var news : News!
+    
+    @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var subjectBackground: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        subjectLabel.text = news.subject
+        dateLabel.text = String(news.createdAt)
+        messageLabel.text = news.message
+        
+//        subjectLabel.sizeToFit()
+//        dateLabel.sizeToFit()
+        subjectBackground.sizeToFit()
+        messageLabel.sizeToFit()
+        
+        
+//        let maxWidth : CGFloat = messageLabel.frame.width
+//        let maxHeight : CGFloat = 10000
+//        let rect = messageLabel.attributedText?.boundingRectWithSize(CGSizeMake(maxWidth, maxHeight),
+//            options: .UsesLineFragmentOrigin, context: nil)
+//        messageLabel.frame.size.height = (rect?.size.height)!
     }
 
     override func didReceiveMemoryWarning() {

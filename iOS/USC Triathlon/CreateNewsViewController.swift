@@ -28,6 +28,7 @@ class CreateNewsViewController: UIViewController {
         details.layer.borderColor = UIColor.lightGrayColor().CGColor
         details.layer.borderWidth = 0.5
         details.layer.cornerRadius = 5
+        details.sizeToFit()
         
         if newsTypeIndex == 0 {
             titleLabel.hidden = false
@@ -52,25 +53,19 @@ class CreateNewsViewController: UIViewController {
         
         switch newsTypeIndex {
         case 0:
-            newsType = "Announcement"
             
             if (titleText.text != "" && details.text != "") {
                 newsTitle = titleText.text as String!
                 newsDetails = details.text as String!
                 
-                news = PFObject(className: "News")
-                news!["user"] = PFUser.currentUser()
-                news!.setObject(newsTitle!, forKey: "title")
-                news!.setObject(newsDetails!, forKey: "details")
-                news!.setObject(newsType!, forKey: "type")
-                
-                news!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
-                    
+                API().AddNews("Temporary Author", subject: newsTitle!, message: newsDetails!, newsHandler: { (error) -> () in
                     if error == nil {
-                        self.navigationController?.popViewControllerAnimated(true)
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }
                     } else {
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.performSegueWithIdentifier("segueCancel", sender: self)
+                            self.title = "Try Again"
                         }
                     }
                 })

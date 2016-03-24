@@ -14,7 +14,8 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var newsTable: UITableView!
     @IBOutlet weak var newsTypeSelector: UISegmentedControl!
     
-    var news: NSMutableArray?
+    var newsToPass: News!
+    var news: NSMutableArray = NSMutableArray()
     var index: Int?
     
     @IBOutlet weak var addNewsButton: UIBarButtonItem!
@@ -30,7 +31,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         newsTable.rowHeight = UITableViewAutomaticDimension
         
         index = newsTypeSelector.selectedSegmentIndex
-        loadData(index!)
+//        loadData(index!)
         
         let tempBarButton = addNewsButton
         addNewsButton = nil
@@ -47,7 +48,8 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func loadData(typeIndex: Int) {
-        news = NSMutableArray()
+        
+        news.removeAllObjects()
         
         if typeIndex == 0 {
             API().LoadNews({ (data, error) -> () in
@@ -70,37 +72,24 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
                                 let created = NSDate(timeIntervalSince1970: c / 1000)
                                 
                                 let newsItem = News(id: key, author: a, createdAt: created, message: m, subject: s)
-                                self.news?.addObject(newsItem)
+                                self.news.addObject(newsItem)
                         }
                     }
                     
-                    let array = self.news!.reverseObjectEnumerator().allObjects
-                    self.news = array as! NSMutableArray
+                    let arrayToSort = NSArray(object: self.news.objectEnumerator().allObjects)[0] as! [News]
+                    let sortedArray = arrayToSort.sort({ (a, b) -> Bool in
+                        b.createdAt.compare(a.createdAt) == NSComparisonResult.OrderedAscending
+                    })
+                    self.news = NSMutableArray(array: sortedArray)
                     
-                    self.newsTable.reloadData()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.newsTable.reloadData()
+                    }
                 }
             })
         } else if typeIndex == 1 {
             
         }
-        
-        
-//        parseQuery.whereKey("type", equalTo: type)
-//        parseQuery.orderByAscending("createdAt")
-//        parseQuery.includeKey("user");
-//        
-//        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-//            if error == nil {
-//                for object:PFObject in objects! {
-//                    self.news!.addObject(object)
-//                }
-//                
-//                let array = self.news!.reverseObjectEnumerator().allObjects
-//                self.news = array as! NSMutableArray
-//                
-//                self.newsTable.reloadData()
-//            }
-//        }
     }
     
     @IBAction func typeChanged(sender: AnyObject) {
@@ -117,11 +106,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //    Number of Rows in the Table
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if news != nil {
-            return self.news!.count
-        } else {
-            return 0
-        }
+        return self.news.count
     }
     
     //    Configure the cells to be displayed
@@ -131,7 +116,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCellWithIdentifier("subtitleCell", forIndexPath: indexPath) as UITableViewCell
         
         // Configure the cell...
-        let item = news?.objectAtIndex(indexPath.row) as! News
+        let item = news.objectAtIndex(indexPath.row) as! News
         
         let date = item.createdAt as NSDate
         let dateFormatter = NSDateFormatter()
@@ -180,13 +165,12 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     //    Handle cell selection
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        // Get Cell Label
         let indexPath = tableView.indexPathForSelectedRow;
         
-        let object = news?.objectAtIndex(indexPath!.row) as! News
+        let object = news.objectAtIndex(indexPath!.row) as! News
 //
-//        eventToPass = object
-//        performSegueWithIdentifier("eventDetails", sender: self)
+        newsToPass = object
+        performSegueWithIdentifier("newsDetails", sender: self)
         
     }
     
@@ -235,12 +219,14 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "addNews" {
-            
             let newsTypeIndex = newsTypeSelector.selectedSegmentIndex
-            
             
             let nextView = segue.destinationViewController as! CreateNewsViewController
             nextView.newsTypeIndex = newsTypeIndex
+            
+        } else if segue.identifier == "newsDetails" {
+            let nextView = segue.destinationViewController as! NewsDetailsViewController
+            nextView.news = newsToPass
         }
     }
 }
