@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jn7-Ot-0pV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jn7-Ot-0pV">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -413,7 +413,9 @@
                         <outlet property="cyclingSwitch" destination="ZaW-Em-aD8" id="ohJ-Kr-REN"/>
                         <outlet property="datepicker" destination="wM3-HL-aNC" id="uju-LM-mmI"/>
                         <outlet property="descriptionField" destination="cIY-aR-YjV" id="Uwq-Rw-Za8"/>
+                        <outlet property="eventTypeLabel" destination="5Te-9i-oNj" id="GQ9-Jc-yh3"/>
                         <outlet property="meetingLocationField" destination="VqC-8D-ejX" id="Gt5-Ij-9ch"/>
+                        <outlet property="reqRsvpSwitch" destination="XYH-J6-Ubz" id="rFz-cS-hez"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5OE-7j-fYq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -488,7 +490,7 @@
                     <navigationItem key="navigationItem" title="Schedule" id="sEI-XP-FlX">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="pwu-dg-CiU">
                             <connections>
-                                <segue destination="TRS-pb-XZq" kind="show" id="Mya-Rk-zk0"/>
+                                <segue destination="TRS-pb-XZq" kind="show" identifier="createEvent" id="Mya-Rk-zk0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

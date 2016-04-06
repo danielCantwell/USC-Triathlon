@@ -15,6 +15,7 @@ class API {
     private static let URL_BASE : String = "http://usctriathlon.herokuapp.com/api/"
     private static let POST_LOGIN : String = { URL_BASE + "login" }()
     private static let POST_SIGNUP : String = { URL_BASE + "signup" }()
+    private static var POST_CREATE_EVENT : String = { URL_BASE + "createEvent" }()
     private static let POST_ADD_NEWS : String = { URL_BASE + "addNews" }()
     private static let GET_LOAD_EVENTS : String = { URL_BASE + "loadEvents" }()
     private static let GET_LOAD_NEWS : String = { URL_BASE + "loadNews" }()
@@ -63,6 +64,49 @@ class API {
     }
     
     // ------------- EVENTS
+    
+    func LoadEvents(type: String, eventHandler: (data: Dictionary<String, AnyObject>?, error: String?) -> ()) {
+        print("Load Events")
+        let url = NSURL(string: API.GET_LOAD_EVENTS + "/\(type)")
+        
+        getJSON(url!) { (data) in
+            if let status = self.dataHasStatus(data) {
+                if status == "success" {
+                    print("Load Events : Success")
+                    eventHandler(data: data, error: nil)
+                } else {
+                    print("Load Events : \(data["error"] as? String)")
+                    eventHandler(data: nil, error: data["error"] as? String)
+                }
+            } else {
+                print("Load Events : No data was returned")
+                eventHandler(data: nil, error: "no data was returned")
+            }
+        
+        }
+    }
+    
+    func CreateEvent(type: String, date: NSDate, meetingLocation: String, details: String, carpooling: Bool, cycling: Bool, reqRsvp: Bool, eventHandler: (error: String?) -> ()) {
+        print("Create Event")
+        let params = formatParams(["type" : type,"date" : date, "meetingLocation" : meetingLocation, "details" : details,
+            "carpooling" : carpooling, "cycling" : cycling, "reqRsvp" : reqRsvp,])
+        let url = NSURL(string: API.POST_CREATE_EVENT)
+        
+        postJSON(params, url: url!) { (data) in
+            if let status = self.dataHasStatus(data) {
+                if status == "success" {
+                    print("Create Event : Success")
+                    eventHandler(error: nil)
+                } else {
+                    print("Create Event : \(data["error"] as? String)")
+                    eventHandler(error: data["errro"] as? String)
+                }
+            } else {
+                print("Create Event : No data was returned")
+                eventHandler(error: "no data was returned")
+            }
+        }
+    }
     
     // ------------- AUTHENTICATION
     
@@ -120,7 +164,7 @@ class API {
     
     // HELPER FUNCTIONS ---------------------------------------------------------------------------------------------
     
-    private func getJSON(url : NSURL, dataHandler : (Dictionary<String, AnyObject>) -> ()) -> Void {
+    private func getJSON(url : NSURL, dataHandler : (data: Dictionary<String, AnyObject>) -> ()) -> Void {
         // show the network activity indicator
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
@@ -137,9 +181,9 @@ class API {
                 print(error.localizedDescription)
             } else {
                 if let data = data, results = self.JSONParseDict(data) {
-                    dataHandler(results)
+                    dataHandler(data: results)
                 } else {
-                    dataHandler(["error": "json error"])
+                    dataHandler(data: ["error": "json error"])
                 }
 //                do {
 //                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -157,7 +201,7 @@ class API {
         dataTask!.resume()
     }
     
-    private func postJSON(params : String, url : NSURL, dataHandler : (Dictionary<String, AnyObject>) -> ()) -> Void {
+    private func postJSON(params : String, url : NSURL, dataHandler : (data: Dictionary<String, AnyObject>) -> ()) -> Void {
         // show the network activity indicator
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         
@@ -182,9 +226,9 @@ class API {
             } else {
                 
                 if let data = data, results = self.JSONParseDict(data) {
-                    dataHandler(results)
+                    dataHandler(data: results)
                 } else {
-                    dataHandler(["error": "json error"])
+                    dataHandler(data: ["error": "json error"])
                 }
                 
 //                do {
@@ -269,4 +313,11 @@ class API {
         return nil
     }
 
+    private func dataHasStatus(data: Dictionary<String, AnyObject>) -> String? {
+        if let status = data["status"] as? String {
+            return status
+        } else {
+            return nil
+        }
+    }
 }

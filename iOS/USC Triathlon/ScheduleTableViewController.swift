@@ -11,7 +11,7 @@ import UIKit
 class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var eventsTable: UITableView!
-    var events: NSMutableArray?
+    var events: NSMutableArray = NSMutableArray()
     var eventToPass: PFObject!
     @IBOutlet weak var eventSegmentControl: UISegmentedControl!
     @IBOutlet weak var addEventButton: UIBarButtonItem!
@@ -21,33 +21,51 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
 
         self.eventsTable.delegate = self
         self.eventsTable.dataSource = self
-        
-        loadData("all")
     }
     
     override func viewDidAppear(animated: Bool) {
-        loadData("all")
+        loadData("practice")
     }
     
     func loadData(type: String) {
-        events = NSMutableArray()
-        let parseQuery = PFQuery(className: "Event")
+        events.removeAllObjects()
         
-        parseQuery.whereKey("type", equalTo: type)
-        parseQuery.orderByDescending("date")
-        parseQuery.whereKey("date", greaterThanOrEqualTo: NSCalendar.currentCalendar().startOfDayForDate(NSDate()))
-        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-            if error == nil {
-                for object:PFObject in objects! {
-                    self.events!.addObject(object)
-                }
+        API().LoadEvents(type) { (data, error) in
+            if (error != nil) {
+                print("Could not load events")
+                print(error)
+            } else {
+                print("Success loading news")
                 
-                let array = self.events!.reverseObjectEnumerator().allObjects
-                self.events = array as! NSMutableArray
+                print(data)
                 
-                self.eventsTable.reloadData()
+//                let eventDictionary = data!["events"]
             }
         }
+        
+        
+        
+        
+        
+        
+        
+//        let parseQuery = PFQuery(className: "Event")
+//        
+//        parseQuery.whereKey("type", equalTo: type)
+//        parseQuery.orderByDescending("date")
+//        parseQuery.whereKey("date", greaterThanOrEqualTo: NSCalendar.currentCalendar().startOfDayForDate(NSDate()))
+//        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
+//            if error == nil {
+//                for object:PFObject in objects! {
+//                    self.events!.addObject(object)
+//                }
+//                
+//                let array = self.events!.reverseObjectEnumerator().allObjects
+//                self.events = array as! NSMutableArray
+//                
+//                self.eventsTable.reloadData()
+//            }
+//        }
     }
     
     @IBAction func typeChanged(sender: AnyObject) {
@@ -82,27 +100,28 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
 
 //    Number of Rows in the Table
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if events != nil {
-            return self.events!.count
-        } else {
-            return 0
-        }
+//        if events != nil {
+//            return self.events!.count
+//        } else {
+//            return 0
+//        }
+        return 0
     }
 
 //    Configure the cells to be displayed
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
 
-        // Configure the cell...
-        let item = events?.objectAtIndex(indexPath.row) as! PFObject
-        
-        let date = item.valueForKey("date") as! NSDate
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE M/dd/YY"
-        let dateString = dateFormatter.stringFromDate(date)
-        
-        cell.textLabel!.text = item.valueForKey("name") as! String
-        cell.detailTextLabel?.text = dateString
+//        // Configure the cell...
+//        let item = events?.objectAtIndex(indexPath.row) as! PFObject
+//        
+//        let date = item.valueForKey("date") as! NSDate
+//        let dateFormatter = NSDateFormatter()
+//        dateFormatter.dateFormat = "EEE M/dd/YY"
+//        let dateString = dateFormatter.stringFromDate(date)
+//        
+//        cell.textLabel!.text = item.valueForKey("name") as! String
+//        cell.detailTextLabel?.text = dateString
 
 
         return cell
@@ -110,14 +129,14 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     
 //    Handle cell selection
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        // Get Cell Label
-        let indexPath = tableView.indexPathForSelectedRow;
-        let object = events?.objectAtIndex(indexPath!.row) as! PFObject
-        
-        eventToPass = object
-        performSegueWithIdentifier("eventDetails", sender: self)
-        
+//        
+//        // Get Cell Label
+//        let indexPath = tableView.indexPathForSelectedRow;
+//        let object = events?.objectAtIndex(indexPath!.row) as! PFObject
+//        
+//        eventToPass = object
+//        performSegueWithIdentifier("eventDetails", sender: self)
+//        
     }
 
     /*
@@ -164,9 +183,21 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "eventDetails" {
-            
             let nextView = segue.destinationViewController as! EventDetailsViewController
+            
             nextView.event = eventToPass
+            
+        } else if segue.identifier == "createEvent" {
+            let nextView = segue.destinationViewController as! CreateEventViewController
+            
+            let eventTypeIndex = eventSegmentControl.selectedSegmentIndex
+            if eventTypeIndex == 0 {
+                nextView.eventType = "practice"
+            } else if eventTypeIndex == 1 {
+                nextView.eventType = "race"
+            } else {
+                nextView.eventType = "other"
+            }
         }
     }
 
