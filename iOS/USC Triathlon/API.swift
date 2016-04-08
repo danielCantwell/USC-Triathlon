@@ -86,7 +86,7 @@ class API {
         }
     }
     
-    func CreateEvent(type: String, date: NSDate, meetingLocation: String, details: String, carpooling: Bool, cycling: Bool, reqRsvp: Bool, eventHandler: (error: String?) -> ()) {
+    func CreateEvent(type: String, date: Int, meetingLocation: String, details: String, carpooling: Bool, cycling: Bool, reqRsvp: Bool, eventHandler: (error: String?) -> ()) {
         print("Create Event")
         let params = formatParams(["type" : type,"date" : date, "meetingLocation" : meetingLocation, "details" : details,
             "carpooling" : carpooling, "cycling" : cycling, "reqRsvp" : reqRsvp,])

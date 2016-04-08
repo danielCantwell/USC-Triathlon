@@ -15,16 +15,21 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     var eventToPass: PFObject!
     @IBOutlet weak var eventSegmentControl: UISegmentedControl!
     @IBOutlet weak var addEventButton: UIBarButtonItem!
+    
+    var typeIndex : Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.eventsTable.delegate = self
         self.eventsTable.dataSource = self
+        
+//        loadData("practice")
     }
     
     override func viewDidAppear(animated: Bool) {
-        loadData("practice")
+//        loadData("practice")
+        typeChanged(self)
     }
     
     func loadData(type: String) {
@@ -35,51 +40,88 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
                 print("Could not load events")
                 print(error)
             } else {
-                print("Success loading news")
+                print("Success loading events")
+//                print(data!["events"])
                 
-                print(data)
+                let newsDictionary = data!["events"]
+                for (key, value) in newsDictionary as! [String : Dictionary<String, AnyObject>] {
+                    if let d = value["date"] as? NSString,
+                        let details = value["details"] as? String,
+                        let meetingLocation = value["meetingLocation"] as? String,
+                        let carpooling = value["carpooling"] as? Bool,
+                        let cycling = value["cycling"] as? Bool,
+                        let reqRsvp = value["reqRsvp"] as? Bool {
+                        
+                        let dateNumber = NSDecimalNumber(string: d as NSString as String)
+//                        NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:<your string object>];
+                        let date = NSDate(timeIntervalSince1970: Double(dateNumber) / 1000)
+                        
+                        if date.compare(NSDate()) == NSComparisonResult.OrderedDescending {
+                            let eventItem = Event(id: key, date: date, details: details, meetingLocation: meetingLocation, carpooling: carpooling, cycling: cycling, reqRsvp: reqRsvp)
+                            self.events.addObject(eventItem)
+                            print("event item added")
+                        }
+                        
+                        
+                    } else {
+                        if let date = value["date"] as? NSNumber {
+                            print("Date: \(date)")
+                        } else {
+                            print("date could not be extracted")
+                        }
+                        if let details = value["details"] as? String {
+                            print("Details: \(details)")
+                        } else {
+                            print("details could not be extracted")
+                        }
+                        if let meetingLocation = value["meetingLocation"] as? String {
+                            print("Meeting Location: \(meetingLocation)")
+                        } else {
+                            print("meetingLocation could not be extracted")
+                        }
+                        if let carpooling = value["carpooling"] as? Bool {
+                            print("Carpooling: \(carpooling)")
+                        } else {
+                            print("carpooling could not be extracted")
+                        }
+                        if let cycling = value["cycling"] as? Bool {
+                            print("Cycling: \(cycling)")
+                        } else {
+                            print("cycling could not be extracted")
+                        }
+                        if let reqRsvp = value["reqRsvp"] as? Bool {
+                            print("Requires RSVP: \(reqRsvp)")
+                        } else {
+                            print("reqRsvp could not be extracted")
+                        }
+                    }
+                }
                 
-//                let eventDictionary = data!["events"]
+                let arrayToSort = NSArray(object: self.events.objectEnumerator().allObjects)[0] as! [Event]
+                let sortedArray = arrayToSort.sort({ (a, b) -> Bool in
+                    a.date.compare(b.date) == NSComparisonResult.OrderedAscending
+                })
+                self.events = NSMutableArray(array: sortedArray)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.eventsTable.reloadData()
+                }
             }
         }
-        
-        
-        
-        
-        
-        
-        
-//        let parseQuery = PFQuery(className: "Event")
-//        
-//        parseQuery.whereKey("type", equalTo: type)
-//        parseQuery.orderByDescending("date")
-//        parseQuery.whereKey("date", greaterThanOrEqualTo: NSCalendar.currentCalendar().startOfDayForDate(NSDate()))
-//        parseQuery.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
-//            if error == nil {
-//                for object:PFObject in objects! {
-//                    self.events!.addObject(object)
-//                }
-//                
-//                let array = self.events!.reverseObjectEnumerator().allObjects
-//                self.events = array as! NSMutableArray
-//                
-//                self.eventsTable.reloadData()
-//            }
-//        }
     }
     
     @IBAction func typeChanged(sender: AnyObject) {
-        let index = eventSegmentControl.selectedSegmentIndex
+        typeIndex = eventSegmentControl.selectedSegmentIndex
         
-        switch index {
+        switch typeIndex {
         case 0:
-            loadData("Practice")
+            loadData("practice")
             break;
         case 1:
-            loadData("Race")
+            loadData("race")
             break;
         case 2:
-            loadData("Other")
+            loadData("other")
             break;
         default:
             break;
@@ -100,28 +142,24 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
 
 //    Number of Rows in the Table
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if events != nil {
-//            return self.events!.count
-//        } else {
-//            return 0
-//        }
-        return 0
+        return self.events.count
     }
 
 //    Configure the cells to be displayed
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
 
-//        // Configure the cell...
-//        let item = events?.objectAtIndex(indexPath.row) as! PFObject
-//        
-//        let date = item.valueForKey("date") as! NSDate
-//        let dateFormatter = NSDateFormatter()
-//        dateFormatter.dateFormat = "EEE M/dd/YY"
-//        let dateString = dateFormatter.stringFromDate(date)
-//        
-//        cell.textLabel!.text = item.valueForKey("name") as! String
-//        cell.detailTextLabel?.text = dateString
+        // Configure the cell...
+        let item = events.objectAtIndex(indexPath.row) as! Event
+        
+        let date = item.date
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "EEE M/dd/YY"
+        let dateString = dateFormatter.stringFromDate(date)
+        
+        cell.textLabel!.text = item.details
+        cell.textLabel!.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        cell.detailTextLabel?.text = dateString
 
 
         return cell
@@ -190,10 +228,9 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
         } else if segue.identifier == "createEvent" {
             let nextView = segue.destinationViewController as! CreateEventViewController
             
-            let eventTypeIndex = eventSegmentControl.selectedSegmentIndex
-            if eventTypeIndex == 0 {
+            if typeIndex == 0 {
                 nextView.eventType = "practice"
-            } else if eventTypeIndex == 1 {
+            } else if typeIndex == 1 {
                 nextView.eventType = "race"
             } else {
                 nextView.eventType = "other"

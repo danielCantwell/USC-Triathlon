@@ -72,44 +72,20 @@ class CreateEventViewController: UIViewController {
             let eventCycling = cyclingSwitch.on
             let eventReqRsvp = reqRsvpSwitch.on
             
-            API().CreateEvent(eventType, date: eventDate, meetingLocation: meetingLocation, details: eventDescription, carpooling: eventCarpooling, cycling: eventCycling, reqRsvp: eventReqRsvp, eventHandler: { (error) in
+            let time : Int = Int(eventDate.timeIntervalSince1970 * 1000)
+            
+            API().CreateEvent(eventType, date: time, meetingLocation: meetingLocation, details: eventDescription, carpooling: eventCarpooling, cycling: eventCycling, reqRsvp: eventReqRsvp, eventHandler: { (error) in
                 if error == nil {
-                    self.navigationController?.popViewControllerAnimated(true)
+                    print("Event Created - Returning to Schedule")
+//                    self.navigationController?.popViewControllerAnimated(true)
+//                    self.dismissViewControllerAnimated(false, completion: nil)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 } else {
                     self.title = "Creation Failed. Try Again"
                 }
             })
-            
-            
-            
-//            //        var object = PFObject(className: "TestClass")
-//            //        object.addObject("Banana", forKey: "favoriteFood")
-//            //        object.addObject("Chocolate", forKey: "favoriteIceCream")
-//            //        object.saveInBackground()
-//            
-//            event = PFObject(className: "Event")
-//            event!.setObject(eventName, forKey: "name")
-//            event!.setObject(eventLocation, forKey: "eventLocation")
-//            event!.setObject(meetingLocation, forKey: "meetingLocation")
-//            event!.setObject(eventDescription, forKey: "details")
-//            event!.setObject(eventDate, forKey: "date")
-//            event!.setObject(eventCarpooling, forKey: "carpooling")
-//            event!.setObject(eventCycling, forKey: "cycling")
-//            event!.setObject(eventType!, forKey: "type")
-//            
-//            event!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
-//                
-//                if error == nil {
-//                    self.navigationController?.popViewControllerAnimated(true)
-////                    dispatch_async(dispatch_get_main_queue()) {
-////                        self.performSegueWithIdentifier("segueCreateEvent", sender: self)
-////                    }
-//                } else {
-//                    dispatch_async(dispatch_get_main_queue()) {
-//                        self.performSegueWithIdentifier("segueCancel", sender: self)
-//                    }
-//                }
-//            })
         } else {
             
         }

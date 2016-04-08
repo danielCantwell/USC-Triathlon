@@ -10,16 +10,20 @@ import Foundation
 
 class Event {
     var id : String!
-    var author : String!
-    var createdAt : NSDate!
-    var message : String!
-    var subject : String!
+    var date : NSDate!
+    var details : String!
+    var meetingLocation : String!
+    var carpooling : Bool!
+    var cycling : Bool!
+    var reqRsvp : Bool!
     
-    init(id: String, author: String, createdAt: NSDate, message: String, subject: String) {
+    init(id: String, date: NSDate, details: String, meetingLocation: String, carpooling: Bool, cycling: Bool, reqRsvp: Bool) {
         self.id = id
-        self.author = author
-        self.createdAt = createdAt
-        self.message = message
-        self.subject = subject
+        self.date = date
+        self.details = details
+        self.meetingLocation = meetingLocation
+        self.carpooling = carpooling
+        self.cycling = cycling
+        self.reqRsvp = reqRsvp
     }
 }
