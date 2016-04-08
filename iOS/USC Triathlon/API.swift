@@ -16,6 +16,7 @@ class API {
     private static let POST_LOGIN : String = { URL_BASE + "login" }()
     private static let POST_SIGNUP : String = { URL_BASE + "signup" }()
     private static var POST_CREATE_EVENT : String = { URL_BASE + "createEvent" }()
+    private static var POST_REMOVE_EVENT : String = { URL_BASE + "removeEvent" }()
     private static let POST_ADD_NEWS : String = { URL_BASE + "addNews" }()
     private static let GET_LOAD_EVENTS : String = { URL_BASE + "loadEvents" }()
     private static let GET_LOAD_NEWS : String = { URL_BASE + "loadNews" }()
@@ -104,6 +105,24 @@ class API {
             } else {
                 print("Create Event : No data was returned")
                 eventHandler(error: "no data was returned")
+            }
+        }
+    }
+    
+    func RemoveEvent(type: String, id: String) {
+        print("Removing event \(id)")
+        let params = formatParams(["type" : type, "id" : id])
+        let url = NSURL(string: API.POST_REMOVE_EVENT)
+        
+        postJSON(params, url: url!) { (data) in
+            if let status = self.dataHasStatus(data) {
+                if status == "success" {
+                    print("Remove Event : Success")
+                } else {
+                    print("Remove Event : \(data["error"])")
+                }
+            } else {
+                print("Remove Event : No data was returned")
             }
         }
     }

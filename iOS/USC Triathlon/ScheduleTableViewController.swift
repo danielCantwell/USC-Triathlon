@@ -60,6 +60,8 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
                             let eventItem = Event(id: key, date: date, details: details, meetingLocation: meetingLocation, carpooling: carpooling, cycling: cycling, reqRsvp: reqRsvp)
                             self.events.addObject(eventItem)
                             print("event item added")
+                        } else {
+                            API().RemoveEvent(type, id: key);
                         }
                         
                         
