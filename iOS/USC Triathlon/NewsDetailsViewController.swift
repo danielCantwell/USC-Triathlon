@@ -19,9 +19,14 @@ class NewsDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "h:mm a EEE M/dd/YY"
+        let dateString = dateFormatter.stringFromDate(news.createdAt)
 
         subjectLabel.text = news.subject
-        dateLabel.text = String(news.createdAt)
+        dateLabel.text = String(dateString)
         messageLabel.text = news.message
         
 //        subjectLabel.sizeToFit()

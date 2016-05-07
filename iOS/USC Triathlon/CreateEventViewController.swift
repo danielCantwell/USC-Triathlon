@@ -10,7 +10,6 @@ import UIKit
 
 class CreateEventViewController: UIViewController {
 
-    var event: PFObject?
     var eventType: String!
     
     @IBOutlet weak var descriptionField: UITextView!

@@ -10,7 +10,6 @@ import UIKit
 
 class CreateNewsViewController: UIViewController {
     
-    var news: PFObject?
     var newsTypeIndex: Int!
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -78,28 +77,6 @@ class CreateNewsViewController: UIViewController {
             
             break
         case 1:
-            
-            if (details.text != "") {
-                newsDetails = details.text as String!
-                
-                news = PFObject(className: "Chat")
-                news!["user"] = PFUser.currentUser()
-                news!.setObject(newsDetails!, forKey: "message")
-                
-                news!.saveInBackgroundWithBlock({ (success: Bool, error: NSError?) -> Void in
-                    
-                    if error == nil {
-                        self.navigationController?.popViewControllerAnimated(true)
-                    } else {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.performSegueWithIdentifier("segueCancel", sender: self)
-                        }
-                    }
-                })
-            } else {
-                details.text = "Please enter a description for your news entry"
-            }
-            
             break
         default:
             newsType = "News"

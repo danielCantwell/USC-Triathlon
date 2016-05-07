@@ -12,7 +12,7 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     
     @IBOutlet weak var eventsTable: UITableView!
     var events: NSMutableArray = NSMutableArray()
-    var eventToPass: PFObject!
+    var eventToPass: Event!
     @IBOutlet weak var eventSegmentControl: UISegmentedControl!
     @IBOutlet weak var addEventButton: UIBarButtonItem!
     
@@ -57,7 +57,7 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
                         let date = NSDate(timeIntervalSince1970: Double(dateNumber) / 1000)
                         
                         if date.compare(NSDate()) == NSComparisonResult.OrderedDescending {
-                            let eventItem = Event(id: key, date: date, details: details, meetingLocation: meetingLocation, carpooling: carpooling, cycling: cycling, reqRsvp: reqRsvp)
+                            let eventItem = Event(id: key, type: type, date: date, details: details, meetingLocation: meetingLocation, carpooling: carpooling, cycling: cycling, reqRsvp: reqRsvp)
                             self.events.addObject(eventItem)
                             print("event item added")
                         } else {
@@ -65,37 +65,6 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
                         }
                         
                         
-                    } else {
-                        if let date = value["date"] as? NSNumber {
-                            print("Date: \(date)")
-                        } else {
-                            print("date could not be extracted")
-                        }
-                        if let details = value["details"] as? String {
-                            print("Details: \(details)")
-                        } else {
-                            print("details could not be extracted")
-                        }
-                        if let meetingLocation = value["meetingLocation"] as? String {
-                            print("Meeting Location: \(meetingLocation)")
-                        } else {
-                            print("meetingLocation could not be extracted")
-                        }
-                        if let carpooling = value["carpooling"] as? Bool {
-                            print("Carpooling: \(carpooling)")
-                        } else {
-                            print("carpooling could not be extracted")
-                        }
-                        if let cycling = value["cycling"] as? Bool {
-                            print("Cycling: \(cycling)")
-                        } else {
-                            print("cycling could not be extracted")
-                        }
-                        if let reqRsvp = value["reqRsvp"] as? Bool {
-                            print("Requires RSVP: \(reqRsvp)")
-                        } else {
-                            print("reqRsvp could not be extracted")
-                        }
                     }
                 }
                 
@@ -169,14 +138,14 @@ class ScheduleTableViewController: UIViewController, UITableViewDelegate, UITabl
     
 //    Handle cell selection
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        
-//        // Get Cell Label
-//        let indexPath = tableView.indexPathForSelectedRow;
-//        let object = events?.objectAtIndex(indexPath!.row) as! PFObject
-//        
-//        eventToPass = object
-//        performSegueWithIdentifier("eventDetails", sender: self)
-//        
+        
+        // Get Cell Label
+        let indexPath = tableView.indexPathForSelectedRow;
+        let object = events.objectAtIndex(indexPath!.row) as! Event
+        
+        eventToPass = object
+        performSegueWithIdentifier("eventDetails", sender: self)
+//
     }
 
     /*

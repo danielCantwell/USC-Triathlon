@@ -10,6 +10,7 @@ import Foundation
 
 class Event {
     var id : String!
+    var type : String!
     var date : NSDate!
     var details : String!
     var meetingLocation : String!
@@ -17,8 +18,9 @@ class Event {
     var cycling : Bool!
     var reqRsvp : Bool!
     
-    init(id: String, date: NSDate, details: String, meetingLocation: String, carpooling: Bool, cycling: Bool, reqRsvp: Bool) {
+    init(id: String, type: String, date: NSDate, details: String, meetingLocation: String, carpooling: Bool, cycling: Bool, reqRsvp: Bool) {
         self.id = id
+        self.type = type
         self.date = date
         self.details = details
         self.meetingLocation = meetingLocation

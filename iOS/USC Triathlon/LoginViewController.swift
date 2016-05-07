@@ -66,24 +66,7 @@ class LoginViewController: UIViewController, LoginListener {
             
             API().MemberLogin(self, email: userEmail, password: userPassword)
             
-/*
-            // email and password are present, attempt to login
-            PFUser.logInWithUsernameInBackground(userEmail, password: userPassword) {
-                (user: PFUser?, error: NSError?) -> Void in
-                if user != nil {
-                    // User Exists
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.performSegueWithIdentifier("segueLogin", sender: self)
-                    }
-                } else {
-                    // User Does Not Exist
-                    self.activityIndicator.stopAnimating()
-                    self.loginEmail.text = ""
-                    self.loginEmail.placeholder = "usc email... login failed"
-                    self.loginPassword.text = ""
-                }
-            }
-*/
+
             
         } else if loginEmail.text == "" {
             self.loginEmail.placeholder = "usc email (required)"
@@ -100,12 +83,11 @@ class LoginViewController: UIViewController, LoginListener {
         print(authData)
 
         // User Exists
-//        var prefs = NSUserDefaults.standardUserDefaults()
-//        prefs.setValue(<#T##value: AnyObject?##AnyObject?#>, forKey: <#T##String#>)
         
-        // Tempory solution to keeping the user logged in
-        var prefs = NSUserDefaults.standardUserDefaults()
+        // Used for keeping the user logged in and accessing user data
+        let prefs = NSUserDefaults.standardUserDefaults()
         prefs.setBool(true, forKey: "userExists")
+        prefs.setValue(authData["uid"] as! String, forKey: "uid")
         prefs.synchronize()
         
         dispatch_async(dispatch_get_main_queue()) {
@@ -117,9 +99,10 @@ class LoginViewController: UIViewController, LoginListener {
         print("login failure")
         print(error)
         
-        // Tempory solution to keeping the user logged in
-        var prefs = NSUserDefaults.standardUserDefaults()
+        // reset user info
+        let prefs = NSUserDefaults.standardUserDefaults()
         prefs.setBool(false, forKey: "userExists")
+        prefs.removeObjectForKey("uid");
         prefs.synchronize()
         
         // User Does Not Exist

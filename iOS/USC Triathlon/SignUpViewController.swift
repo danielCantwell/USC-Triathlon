@@ -78,80 +78,80 @@ class SignUpViewController: UIViewController, SignUpListener {
     
     @IBAction func officerSignup(sender: AnyObject) {
         
-        let userFirst = signupFirstName.text
-        let userLast = signupLastName.text
-        var userEmail = signupEmail.text
-        let userPassword = signupPassword.text
-        
-        if userFirst != "" && userLast != "" && userEmail != "" && userPassword != "" {
-            
-            //            Save email as lowercase
-            userEmail = userEmail!.lowercaseString
-            
-            if userEmail!.hasSuffix("@usc.edu") {
-                
-//                Create Alert
-                let alertMessage = UIAlertController(title: "Officer Signup", message: "Please enter your officer code", preferredStyle: UIAlertControllerStyle.Alert)
-//                Add Text Input
-                alertMessage.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-                    textField.placeholder = "officer code"
-                })
-//                Add Button
-                alertMessage.addAction(UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.Default, handler: { Void in
-//                    Button Click
-                    let officerCode = alertMessage.textFields?.first?.text as String!
-                    if officerCode != "" {
-                        
-//                        Check if the officer code is valid
-                        PFConfig.getConfigInBackgroundWithBlock({ (var config: PFConfig?, error: NSError?) -> () in
-                            if error != nil {
-                                config = PFConfig.currentConfig()
-                            }
-                            
-                            let configOfficerCode: NSString? = config?["OfficerCode"] as? NSString
-                            
-                            if let configOfficerCode = configOfficerCode {
-                                if officerCode == configOfficerCode {
-                                    
-//                                    Officer code matches, continue with signup
-                                    self.signup(userFirst!, last: userLast!, email: userEmail!, password: userPassword!, isOfficer: true)
-                                    
-                                } else {
-                                    self.errorMessage.text = "Officer code does not match."
-                                    self.errorMessage.hidden = false
-                                }
-                            } else {
-                                self.errorMessage.text = "Could not validate code. Please try again"
-                                self.errorMessage.hidden = false
-                            }
-                        })
-                        
-                    } else {
-                        self.errorMessage.text = "Officer Code is Required"
-                        self.errorMessage.hidden = false
-                    }
-                }))
-//                Show Alert
-                self.presentViewController(alertMessage, animated: true, completion: nil)
-                
-            } else {
-                signupEmail.text = ""
-                signupEmail.placeholder = "email must end in @usc.edu"
-            }
-        } else {
-            if userFirst == "" {
-                signupFirstName.placeholder = "First Name (required)"
-            }
-            if userLast == "" {
-                signupLastName.placeholder = "Last Name (required)"
-            }
-            if userEmail == "" {
-                signupEmail.placeholder = "usc email (required)"
-            }
-            if userPassword == "" {
-                signupPassword.placeholder = "password (required)"
-            }
-        }
+//        let userFirst = signupFirstName.text
+//        let userLast = signupLastName.text
+//        var userEmail = signupEmail.text
+//        let userPassword = signupPassword.text
+//        
+//        if userFirst != "" && userLast != "" && userEmail != "" && userPassword != "" {
+//            
+//            //            Save email as lowercase
+//            userEmail = userEmail!.lowercaseString
+//            
+//            if userEmail!.hasSuffix("@usc.edu") {
+//                
+////                Create Alert
+//                let alertMessage = UIAlertController(title: "Officer Signup", message: "Please enter your officer code", preferredStyle: UIAlertControllerStyle.Alert)
+////                Add Text Input
+//                alertMessage.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+//                    textField.placeholder = "officer code"
+//                })
+////                Add Button
+//                alertMessage.addAction(UIAlertAction(title: "Sign Up", style: UIAlertActionStyle.Default, handler: { Void in
+////                    Button Click
+//                    let officerCode = alertMessage.textFields?.first?.text as String!
+//                    if officerCode != "" {
+//                        
+////                        Check if the officer code is valid
+//                        PFConfig.getConfigInBackgroundWithBlock({ (var config: PFConfig?, error: NSError?) -> () in
+//                            if error != nil {
+//                                config = PFConfig.currentConfig()
+//                            }
+//                            
+//                            let configOfficerCode: NSString? = config?["OfficerCode"] as? NSString
+//                            
+//                            if let configOfficerCode = configOfficerCode {
+//                                if officerCode == configOfficerCode {
+//                                    
+////                                    Officer code matches, continue with signup
+//                                    self.signup(userFirst!, last: userLast!, email: userEmail!, password: userPassword!, isOfficer: true)
+//                                    
+//                                } else {
+//                                    self.errorMessage.text = "Officer code does not match."
+//                                    self.errorMessage.hidden = false
+//                                }
+//                            } else {
+//                                self.errorMessage.text = "Could not validate code. Please try again"
+//                                self.errorMessage.hidden = false
+//                            }
+//                        })
+//                        
+//                    } else {
+//                        self.errorMessage.text = "Officer Code is Required"
+//                        self.errorMessage.hidden = false
+//                    }
+//                }))
+////                Show Alert
+//                self.presentViewController(alertMessage, animated: true, completion: nil)
+//                
+//            } else {
+//                signupEmail.text = ""
+//                signupEmail.placeholder = "email must end in @usc.edu"
+//            }
+//        } else {
+//            if userFirst == "" {
+//                signupFirstName.placeholder = "First Name (required)"
+//            }
+//            if userLast == "" {
+//                signupLastName.placeholder = "Last Name (required)"
+//            }
+//            if userEmail == "" {
+//                signupEmail.placeholder = "usc email (required)"
+//            }
+//            if userPassword == "" {
+//                signupPassword.placeholder = "password (required)"
+//            }
+//        }
     }
     
 
@@ -167,8 +167,12 @@ class SignUpViewController: UIViewController, SignUpListener {
         print("signup successful")
         
         // Tempory solution to keeping the user logged in
-        var prefs = NSUserDefaults.standardUserDefaults()
+        let prefs = NSUserDefaults.standardUserDefaults()
         prefs.setBool(true, forKey: "userExists")
+        prefs.setBool(false, forKey: "hasCar")
+        prefs.setBool(false, forKey: "needRack")
+        prefs.setInteger(0, forKey: "passengerCapacity")
+        prefs.setInteger(0, forKey: "bikeCapacity")
         prefs.synchronize()
         
         dispatch_async(dispatch_get_main_queue()) {
@@ -182,7 +186,7 @@ class SignUpViewController: UIViewController, SignUpListener {
         print(error)
         
         // Tempory solution to keeping the user logged in
-        var prefs = NSUserDefaults.standardUserDefaults()
+        let prefs = NSUserDefaults.standardUserDefaults()
         prefs.setBool(false, forKey: "userExists")
         prefs.synchronize()
         
